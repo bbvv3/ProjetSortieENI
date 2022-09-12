@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity(fields={"email"}, message="Cet email existe déjà")
+ * @UniqueEntity(fields={"pseudo", message="Ce pseudo existe déjà"})
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -20,6 +24,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Assert\Email(message="L'email n'est pas valide")
+     * @Assert\Length(max = 180, maxMessage="L'email doit contenir 180 caractères maximum")
+     * @Assert\NotBlank(message="Merci de renseigner votre email")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -34,6 +41,46 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Merci d'utiliser les caractères autorisés")
+     * @Assert\Length(min = 3, max = 50, minMessage="Le pseudo doit contenir 3 caractères minimum",
+     *     maxMessage="Le pseudo doit contenir 50 caractères maximum")
+     * @Assert\NotBlank(message="Merci de renseigner votre pseudo")
+     * @ORM\Column(type="string", length=50, unique=true)
+     */
+    private $pseudo;
+
+    /**
+     * @Assert\Length(min = 3, max = 80, minMessage="Le nom doit contenir 3 caractères minimum",
+     *     maxMessage="Le nom doit contenir 80 caractères maximum")
+     * @Assert\NotBlank(message="Merci de renseigner un nom")
+     * @ORM\Column(type="string", length=80)
+     */
+    private $nom;
+
+    /**
+     * @Assert\Length(min = 3, max = 80, minMessage="Le prénom doit contenir 3 caractères minimum",
+     *     maxMessage="Le prénom doit contenir 80 caractères maximum")
+     * @Assert\NotBlank(message="Merci de renseigner un prénom")
+     * @ORM\Column(type="string", length=80)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $telephone;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $administrateur;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $actif;
 
     public function getId(): ?int
     {
@@ -122,5 +169,77 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?int
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?int $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function isAdministrateur(): ?bool
+    {
+        return $this->administrateur;
+    }
+
+    public function setAdministrateur(bool $administrateur): self
+    {
+        $this->administrateur = $administrateur;
+
+        return $this;
+    }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
+    }
+
+    public function setActif(bool $actif): self
+    {
+        $this->actif = $actif;
+
+        return $this;
     }
 }
