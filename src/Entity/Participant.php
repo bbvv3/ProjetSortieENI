@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @UniqueEntity(fields={"email"}, message="Cet email existe déjà")
- * @UniqueEntity(fields={"pseudo", message="Ce pseudo existe déjà"})
+ * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo existe déjà")
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,8 +26,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @Assert\Email(message="L'email n'est pas valide")
-     * @Assert\Length(max = 180, maxMessage="L'email doit contenir 180 caractères maximum")
+     * @Assert\Length(max=180, maxMessage="L'email doit contenir 180 caractères maximum")
      * @Assert\NotBlank(message="Merci de renseigner votre email")
      * @ORM\Column(type="string", length=180, unique=true)
      */
@@ -43,25 +44,21 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Merci d'utiliser les caractères autorisés")
-     * @Assert\Length(min = 3, max = 50, minMessage="Le pseudo doit contenir 3 caractères minimum",
-     *     maxMessage="Le pseudo doit contenir 50 caractères maximum")
+     * @Assert\Length(min=3, max=50, minMessage="Le pseudo doit contenir 3 caractères minimum", maxMessage="Le pseudo doit contenir 50 caractères maximum")
      * @Assert\NotBlank(message="Merci de renseigner votre pseudo")
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $pseudo;
 
     /**
-     * @Assert\Length(min = 3, max = 80, minMessage="Le nom doit contenir 3 caractères minimum",
-     *     maxMessage="Le nom doit contenir 80 caractères maximum")
+     * @Assert\Length(min=3, max=80, minMessage="Le nom doit contenir 3 caractères minimum", maxMessage="Le nom doit contenir 80 caractères maximum")
      * @Assert\NotBlank(message="Merci de renseigner un nom")
      * @ORM\Column(type="string", length=80)
      */
     private $nom;
 
     /**
-     * @Assert\Length(min = 3, max = 80, minMessage="Le prénom doit contenir 3 caractères minimum",
-     *     maxMessage="Le prénom doit contenir 80 caractères maximum")
+     * @Assert\Length(min=3, max=80, minMessage="Le prénom doit contenir 3 caractères minimum", maxMessage="Le prénom doit contenir 80 caractères maximum")
      * @Assert\NotBlank(message="Merci de renseigner un prénom")
      * @ORM\Column(type="string", length=80)
      */
@@ -81,6 +78,28 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $actif;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
+     */
+    private $estInscrit;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur", orphanRemoval=true)
+     */
+    private $sortiesOrganisees;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participantsInscrits")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $rattacheA;
+
+    public function __construct()
+    {
+        $this->estInscrit = new ArrayCollection();
+        $this->sortiesOrganisees = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -239,6 +258,72 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getEstInscrit(): Collection
+    {
+        return $this->estInscrit;
+    }
+
+    public function addEstInscrit(Sortie $estInscrit): self
+    {
+        if (!$this->estInscrit->contains($estInscrit)) {
+            $this->estInscrit[] = $estInscrit;
+        }
+
+        return $this;
+    }
+
+    public function removeEstInscrit(Sortie $estInscrit): self
+    {
+        $this->estInscrit->removeElement($estInscrit);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSortiesOrganisees(): Collection
+    {
+        return $this->sortiesOrganisees;
+    }
+
+    public function addSortiesOrganisee(Sortie $sortiesOrganisee): self
+    {
+        if (!$this->sortiesOrganisees->contains($sortiesOrganisee)) {
+            $this->sortiesOrganisees[] = $sortiesOrganisee;
+            $sortiesOrganisee->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortiesOrganisee(Sortie $sortiesOrganisee): self
+    {
+        if ($this->sortiesOrganisees->removeElement($sortiesOrganisee)) {
+            // set the owning side to null (unless already changed)
+            if ($sortiesOrganisee->getOrganisateur() === $this) {
+                $sortiesOrganisee->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRattacheA(): ?Campus
+    {
+        return $this->rattacheA;
+    }
+
+    public function setRattacheA(?Campus $rattacheA): self
+    {
+        $this->rattacheA = $rattacheA;
 
         return $this;
     }
