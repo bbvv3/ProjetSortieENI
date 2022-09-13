@@ -36,7 +36,7 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="Merci de saisir la durée")
-     * @ORM\Column(type="interger")
+     * @ORM\Column(type="integer")
      */
     private $duree;
 
@@ -60,7 +60,7 @@ class Sortie
     private $infosSortie;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="estInscrit")
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscriptions")
      */
     private $participants;
 
@@ -83,7 +83,7 @@ class Sortie
     private $lieuSortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Etat::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $etatSortie;

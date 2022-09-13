@@ -29,7 +29,7 @@ class Campus
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="rattacheA", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus", orphanRemoval=true)
      */
     private $participantsInscrits;
 
