@@ -2,7 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use ContainerL9RxIeP\getCampusRepositoryService;
+use Doctrine\ORM\EntityRepository;
+use phpDocumentor\Reflection\PseudoType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Factory\Cache\ChoiceLabel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,12 +17,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+
 class MonProfilType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('pseudo')
+
+
             ->add('prenom')
             ->add('nom')
             ->add('telephone')
@@ -33,11 +43,11 @@ class MonProfilType extends AbstractType
                     ])
                 ]
             ])
-            ->add('campus',ChoiceType::class,[
-                'choices'=>[
+            ->add('campus',EntityType::class,[
+                    'class'=>Campus::class,
+                    'choice_label'=>'nom',
 
-                ]
-            ])
+             ])
         ;
     }
 
