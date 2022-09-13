@@ -8,10 +8,66 @@
 <h1>Sortir.com</h1>
     <p>ici on doit afficher le tableau des sorties devra afficher l'état en cours /ouvert/ fermé/ En création</p><br>
     <p>avec les champs suivant "Nom de la sortie/Date de la sortie/Clôture/inscrits.places/Etat/Inscrit/Organisateur/Actions</p>
-    <h2>Date du jour</h2>
-    <h2>Participant : </h2>
+    <h2>Date du jour : {{ 'now' | date('d/m/Y') }}</h2>
+    <h2>Participant : {# todo : BDD vide, à dé-commenter quand BDD avec utilisateurs {{ app.user.userIdentifier }} #}</h2>
 
     <h3>Filtrer les sorties</h3>
+    <form action="">
+        <label for="campus">Campus</label>
+        <select name="campus" id="campus">
+            <option value="">--- Choisissez un campus ---</option>
+            <option value="1">SAINT-HERBLAIN</option>
+            <option value="2">RENNES</option>
+            <option value="3">LA ROCHELLE</option>
+        </select>
+        <br>
+        <label for="tamaman">Le nom de la sortie contient : </label><input id="tamaman" type="search" placeholder="search">
+        <br>
+        <label for="dateDebut">Entre</label> <input type="date" name="dateDebut" id="dateDebut"> <label for="dateFin">et</label> <input type="date" name="dateFin" id="dateFin">
+        <br>
+        <input type="checkbox" name="orga" id="orga"><label for="orga">Sorties dont je suis l'organisateur/trice</label>
+        <br>
+        <input type="checkbox" name="inscrit" id="inscrit"><label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
+        <br>
+        <input type="checkbox" name="nonInscrit" id="nonInscrit"><label for="nonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+        <br>
+        <input type="checkbox" name="passe" id="passe"><label for="passe">Sorties passées</label>
+        <br>
+        <input type="submit" name="Rechercher">
+    </form>
 
+    <p>------------------------------------</p>
+      <div>
+        {{ form_start(mainForm) }}
+
+        {{ form_widget(mainForm) }}
+
+        <button>Rechercher</button>
+
+        {{ form_end(mainForm) }}
+    </div>
+
+    <table>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <th>P</th>
+            <th>O</th>
+            <th>U</th>
+            <th>R</th>
+            <th>Q</th>
+            <th>U</th>
+            <th>E</th>
+            <th>A</th>
+        </tr>
+    </table>
 
 {% endblock %}
