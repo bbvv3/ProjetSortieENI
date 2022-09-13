@@ -8,8 +8,8 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
-                property: email
+                class: App\Entity\Participant
+                property: mail
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
@@ -24,6 +24,9 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
 
+            remember_me:
+                secret:   '%kernel.secret%' # required
+                lifetime: 604800
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
