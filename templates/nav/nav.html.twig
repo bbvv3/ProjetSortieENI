@@ -4,8 +4,8 @@
             <li><a href="#" title="villes">Villes</a></li>
             <li><a href="#" title="campus">Campus</a></li>
         {% endif %}
-        <li><a href="#" title="accueil">Accueil</a></li>
-        <li><a href="#" title="mon profil">Mon profil</a></li>
+        <li><a href="{{ path('app_home') }}" title="accueil">Accueil</a></li>
+        <li><a href="{{ path('app_monProfil') }}" title="mon profil">Mon profil</a></li>
         <li><a href="{{ path('app_logout') }}" title="se déconnecter">Se déconnecter</a></li>
     </ul>
 </nav>
