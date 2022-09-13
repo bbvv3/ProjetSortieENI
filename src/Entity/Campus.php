@@ -6,10 +6,13 @@ use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=CampusRepository::class)
+ * @UniqueEntity(fields={"nom"}, message="Cet id existe déjà")
  */
 class Campus
 {
@@ -19,10 +22,9 @@ class Campus
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @Assert\Length(max=150, maxMessage="Le nom du campus doit contenir 150 caractères maximum")
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150, unique=true)
      */
     private $nom;
 
@@ -71,7 +73,7 @@ class Campus
     {
         if (!$this->participantsInscrits->contains($participantsInscrit)) {
             $this->participantsInscrits[] = $participantsInscrit;
-            $participantsInscrit->setRattacheA($this);
+            $participantsInscrit->setCampus($this);
         }
 
         return $this;
@@ -81,8 +83,8 @@ class Campus
     {
         if ($this->participantsInscrits->removeElement($participantsInscrit)) {
             // set the owning side to null (unless already changed)
-            if ($participantsInscrit->getRattacheA() === $this) {
-                $participantsInscrit->setRattacheA(null);
+            if ($participantsInscrit->getCampus() === $this) {
+                $participantsInscrit->setCampus(null);
             }
         }
 
@@ -109,12 +111,7 @@ class Campus
 
     public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getSiteOrganisateur() === $this) {
-                $sorty->setSiteOrganisateur(null);
-            }
-        }
+        $this->sorties->removeElement($sorty);
 
         return $this;
     }

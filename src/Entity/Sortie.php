@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,7 +36,7 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="Merci de saisir la durée")
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="interger")
      */
     private $duree;
 
@@ -118,12 +119,12 @@ class Sortie
         return $this;
     }
 
-    public function getDuree(): ?\DateTimeInterface
+    public function getDuree(): ?Integer
     {
         return $this->duree;
     }
 
-    public function setDuree(\DateTimeInterface $duree): self
+    public function setDuree( Integer $duree): self
     {
         $this->duree = $duree;
 
