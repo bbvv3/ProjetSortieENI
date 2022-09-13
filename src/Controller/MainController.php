@@ -21,14 +21,5 @@ class MainController extends AbstractController
         ]);
     }
 
-    /**
-     * @return ("login", name="login")
-     */
-    public function login()
-    {
-        if (false === $this->getUser('security.authorization_checker')->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return new RedirectResponse('/', 403);
-        }
-        return $this->render('security/login.html.twig');
-    }
+
 }
