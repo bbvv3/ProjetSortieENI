@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
-use ContainerL9RxIeP\getCampusRepositoryService;
+# use ContainerL9RxIeP\getCampusRepositoryService;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\PseudoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,11 +23,10 @@ class MonProfilType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('pseudo')
-
-
+            ->add('pseudo', TextType::class, [
+                'data'=>'pseudo Test'
+            ])
             ->add('prenom')
             ->add('nom')
             ->add('telephone')
@@ -46,7 +45,6 @@ class MonProfilType extends AbstractType
             ->add('campus',EntityType::class,[
                     'class'=>Campus::class,
                     'choice_label'=>'nom',
-
              ])
         ;
     }
