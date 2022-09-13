@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EtatRepository::class)
+ * @UniqueEntity(fields={"libelle"}, message="Cet libéllé existe déjà")
  */
 class Etat
 {
@@ -22,7 +23,7 @@ class Etat
 
     /**
      * @Assert\Choice(choices={"Créée", "Ouverte", "Clôturée", "Activité en cours", "Passée", "Annulée"})
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $libelle;
 
@@ -40,12 +41,4 @@ class Etat
     {
         return $this->libelle;
     }
-
-    public function setLibelle(string $libelle): self
-    {
-        $this->libelle = $libelle;
-
-        return $this;
-    }
-
 }

@@ -6,10 +6,12 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
+ * @UniqueEntity(fields={"codePostal", "ville"}, message="Cette combinaison de ville et de code postal n'existe déjà")
  */
 class Ville
 {
@@ -92,13 +94,7 @@ class Ville
 
     public function removeLieux(Lieu $lieux): self
     {
-        if ($this->lieux->removeElement($lieux)) {
-            // set the owning side to null (unless already changed)
-            if ($lieux->getVille() === $this) {
-                $lieux->setVille(null);
-            }
-        }
-
+        $this->lieux->removeElement($lieux);
         return $this;
     }
 }

@@ -36,13 +36,13 @@ class Lieu
 
     /**
      * @Assert\NotBlank(message="Merci de saisir la latitude")
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $latitude;
 
     /**
      * @Assert\NotBlank(message="Merci de saisir la longitude")
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $longitude;
 
@@ -135,12 +135,7 @@ class Lieu
 
     public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getLieuSortie() === $this) {
-                $sorty->setLieuSortie(null);
-            }
-        }
+        $this->sorties->removeElement($sorty);
 
         return $this;
     }

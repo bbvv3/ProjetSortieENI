@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
- * @UniqueEntity(fields={"email"}, message="Cet email existe déjà")
+ * @UniqueEntity(fields={"mail"}, message="Cet email existe déjà")
  * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo existe déjà")
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
@@ -30,18 +30,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank(message="Merci de renseigner votre email")
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    private $mail;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private $motPasse;
 
     /**
      * @Assert\Length(min=3, max=50, minMessage="Le pseudo doit contenir 3 caractères minimum", maxMessage="Le pseudo doit contenir 50 caractères maximum")
@@ -82,7 +77,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
      */
-    private $estInscrit;
+    private $inscriptions;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur", orphanRemoval=true)
@@ -93,11 +88,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participantsInscrits")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $rattacheA;
+    private $campus;
 
     public function __construct()
     {
-        $this->estInscrit = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
         $this->sortiesOrganisees = new ArrayCollection();
     }
 
@@ -106,14 +101,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getMail(): ?string
     {
-        return $this->email;
+        return $this->mail;
     }
 
-    public function setEmail(string $email): self
+    public function setMail(string $mail): self
     {
-        $this->email = $email;
+        $this->mail = $mail;
 
         return $this;
     }
@@ -125,7 +120,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->mail;
     }
 
     /**
@@ -133,7 +128,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->mail;
     }
 
     /**
@@ -141,18 +136,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        $role[] = 'ROLE_USER';
+        if($this->isAdministrateur()){
+           $role[0] = 'ROLE_ADMIN';
+       }
+        return array_unique($role);
     }
 
     /**
@@ -160,12 +148,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->motPasse;
     }
 
-    public function setPassword(string $password): self
+    public function getMotPasse(): string
     {
-        $this->password = $password;
+        return $this->motPasse;
+    }
+
+    public function setMotPasse(string $motPasse): self
+    {
+        $this->motPasse = $motPasse;
 
         return $this;
     }
@@ -265,15 +258,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Sortie>
      */
-    public function getEstInscrit(): Collection
+    public function getInscriptions(): Collection
     {
-        return $this->estInscrit;
+        return $this->inscriptions;
     }
 
     public function addEstInscrit(Sortie $estInscrit): self
     {
-        if (!$this->estInscrit->contains($estInscrit)) {
-            $this->estInscrit[] = $estInscrit;
+        if (!$this->inscriptions->contains($estInscrit)) {
+            $this->inscriptions[] = $estInscrit;
         }
 
         return $this;
@@ -281,7 +274,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeEstInscrit(Sortie $estInscrit): self
     {
-        $this->estInscrit->removeElement($estInscrit);
+        $this->inscriptions->removeElement($estInscrit);
 
         return $this;
     }
@@ -306,24 +299,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeSortiesOrganisee(Sortie $sortiesOrganisee): self
     {
-        if ($this->sortiesOrganisees->removeElement($sortiesOrganisee)) {
-            // set the owning side to null (unless already changed)
-            if ($sortiesOrganisee->getOrganisateur() === $this) {
-                $sortiesOrganisee->setOrganisateur(null);
-            }
-        }
+        $this->sortiesOrganisees->removeElement($sortiesOrganisee);
 
         return $this;
     }
 
-    public function getRattacheA(): ?Campus
+    public function getCampus(): ?Campus
     {
-        return $this->rattacheA;
+        return $this->campus;
     }
 
-    public function setRattacheA(?Campus $rattacheA): self
+    public function setCampus(?Campus $campus): self
     {
-        $this->rattacheA = $rattacheA;
+        $this->campus = $campus;
 
         return $this;
     }
