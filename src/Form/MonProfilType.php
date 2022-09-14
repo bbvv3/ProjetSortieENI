@@ -27,7 +27,7 @@ class MonProfilType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'data'=>'pseudo Test'
+                'data'=>'pseudo'
             ])
             ->add('prenom')
             ->add('nom')

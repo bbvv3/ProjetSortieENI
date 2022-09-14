@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block body %}
+<h1>Gérer les villes</h1>
+
+    <h3>Filtrer les villes</h3>
+
+    <p>le nom contient </p>
+    <input type="search" {{ form_start(rechercheVilleForm) }}
+        {{ form_widget(rechercheVilleForm) }}
+        {{ form_end(rechercheVilleForm) }}>
+    <button type="submit">Rechercher</button>
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Code postal</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+             {% for ville in villes %}
+                 <th> {{ ville.nom }}</th>
+                 <th>{{ ville.codePostal }}</th>
+
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock %}
+
+
