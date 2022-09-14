@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Integer;
+
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -92,9 +94,10 @@ class Sortie
     {
         $this->participants = new ArrayCollection();
     }
-
-
-
+    public function getId():?int
+    {
+        return $this->id;
+    }
     public function getNom(): ?string
     {
         return $this->nom;
@@ -119,12 +122,12 @@ class Sortie
         return $this;
     }
 
-    public function getDuree(): ?Integer
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
 
-    public function setDuree( Integer $duree): self
+    public function setDuree( int  $duree): self
     {
         $this->duree = $duree;
 
@@ -240,6 +243,10 @@ class Sortie
         $this->etatSortie = $etatSortie;
 
         return $this;
+    }
+
+    public function setIsPublished(bool $true)
+    {
     }
 
 }
