@@ -25,7 +25,6 @@ class MainType extends AbstractType
             ])
             ->add('search', SearchType::class, [
                 'label' => 'Le nom de la sortie contient : ',
-                'required' => false,
                 'attr' => [
                     'placeholder' => 'search'
                 ]
