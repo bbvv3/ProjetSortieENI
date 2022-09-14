@@ -40,16 +40,18 @@
             <th>Organisateur</th>
             <th>Actions</th>
         </tr>
-        <tr>
-            <th>P</th>
-            <th>O</th>
-            <th>U</th>
-            <th>R</th>
-            <th>Q</th>
-            <th>U</th>
-            <th>E</th>
-            <th>A</th>
-        </tr>
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
+                <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.etatSortie | length }}</td>
+                <td>Ma Bite</td>
+                <td>{{ sortie.organisateur | length }}</td>
+                <td>{{ sortie.infosSortie }}</td>
+            </tr>
+        {% endfor %}
     </table>
 
     <button><a href="{{ path('app_sortie') }}" title="creerSortie">Créer Sortie</a></button>
