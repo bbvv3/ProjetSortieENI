@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
+
 use App\Form\MonProfilType;
+use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,11 @@ class ProfilController extends AbstractController
     /**
      * @Route("/monProfil", name="app_monProfil")
      */
-    public function monProfil(Request $request): Response
+    public function monProfil(Request $request, ParticipantRepository $participantRepository): Response
     {
-        $participant = new Participant();
+        $user = $this->getUser();
+        // On appel le repository du participant et les trie avec leur mail et on utilise findOneBy pour le retrouver et il sera disponible de partout
+        $participant = $participantRepository->findOneBy(['mail' => $user->getUserIdentifier()]);
         $monProfilForm =$this->createForm(MonProfilType::class,$participant);
         //$monProfilForm->handleRequest($request);
         return $this->render('profil/monProfil.html.twig', [
