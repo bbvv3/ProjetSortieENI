@@ -13,27 +13,9 @@
 
     <h3>Filtrer les sorties</h3>
     <form action="">
-        <label for="campus">Campus</label>
-        <select name="campus" id="campus">
-            <option value="">--- Choisissez un campus ---</option>
-            <option value="1">SAINT-HERBLAIN</option>
-            <option value="2">RENNES</option>
-            <option value="3">LA ROCHELLE</option>
-        </select>
-        <br>
-        <label for="tamaman">Le nom de la sortie contient : </label><input id="tamaman" type="search" placeholder="search">
-        <br>
+
         <label for="dateDebut">Entre</label> <input type="date" name="dateDebut" id="dateDebut"> <label for="dateFin">et</label> <input type="date" name="dateFin" id="dateFin">
-        <br>
-        <input type="checkbox" name="orga" id="orga"><label for="orga">Sorties dont je suis l'organisateur/trice</label>
-        <br>
-        <input type="checkbox" name="inscrit" id="inscrit"><label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
-        <br>
-        <input type="checkbox" name="nonInscrit" id="nonInscrit"><label for="nonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
-        <br>
-        <input type="checkbox" name="passe" id="passe"><label for="passe">Sorties passées</label>
-        <br>
-        <input type="submit" name="Rechercher">
+
     </form>
 
     <p>------------------------------------</p>
@@ -69,5 +51,7 @@
             <th>A</th>
         </tr>
     </table>
+
+    <button><a href="{{ path('app_creer_sortie') }}" title="creerSortie">Créer Sortie</a></button>
 
 {% endblock %}

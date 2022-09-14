@@ -29,6 +29,10 @@ class MainType extends AbstractType
                     'placeholder' => 'search'
                 ]
             ])
+            //->add('datesSortie', DateType::class, [
+            //    'label' => 'Entre ',
+            //    'date' => date(Y-m-d),
+            //])
             ->add('sortiesOrga', CheckboxType::class, [
                 'label'    => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false,
