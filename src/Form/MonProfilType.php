@@ -26,9 +26,7 @@ class MonProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo', TextType::class, [
-                'data'=>'pseudo'
-            ])
+            ->add('pseudo')
             ->add('prenom')
             ->add('nom')
             ->add('telephone')
