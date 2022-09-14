@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\MainType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +18,12 @@ class MainController extends AbstractController
     /**
      * @Route("", name="_home")
      */
-    public function home(Request $request, SortieRepository $sortieRepository): Response
+    public function home(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
     {
         $mainForm = $this->createForm(MainType::class);
 
         $sorties = $sortieRepository->findAll();
-        //$etats =  $etatRepository->findAll();
+        $etats =  $etatRepository->findAll();
         //$query = "SELECT id, nom
         //            FROM etat
         //            INNER JOIN sortie
@@ -32,7 +33,7 @@ class MainController extends AbstractController
             // 'controller_name' => 'MainController',
             'mainForm'=>$mainForm->createView(),
             "sorties" => $sorties,
-            //"etats" => $etats,
+            "etats" => $etats,
         ]);
     }
 }
