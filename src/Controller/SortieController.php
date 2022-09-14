@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Entity\Etat;
+
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Form;
 class SortieController extends AbstractController
 {
     /**
@@ -26,23 +26,33 @@ class SortieController extends AbstractController
                                    EntityManagerInterface $entityManager,
                                    EtatRepository $etatRepository): Response
     {
-        $etat = $etatRepository->find(['id'=>4]);
+
         $creerSortie = new Sortie();
 
-        $creerSortie->setEtatSortie($etat);
-        $sortieForm =$this->createForm(SortieType::class,$creerSortie);
+
+        $sortieForm = $this->createForm(SortieType::class, $creerSortie);
         $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid())
-        {
-            $creerSortie->setIsPublished(true);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
+            if ($sortieForm->getClickedButton() === $sortieForm->get('publier')){
+                $etat = $etatRepository->findOneBy(['libelle' => 'En cours']);
+
+
+            }
+            else{
+                $etat = $etatRepository->findOneBy(['libelle' => 'En création']);
+            }
+            $creerSortie->setEtatSortie($etat);
             $entityManager->persist($creerSortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home',['id'=>$creerSortie->getId()]);
 
-        }
+        $entityManager->persist($creerSortie);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_home', ['id' => $creerSortie->getId()]);
+
+    }
 
 
         return $this->render('creerSortie/creerSortie.html.twig', [

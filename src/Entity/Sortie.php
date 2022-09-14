@@ -245,8 +245,6 @@ class Sortie
         return $this;
     }
 
-    public function setIsPublished(bool $true)
-    {
-    }
+
 
 }
