@@ -21,9 +21,9 @@ Créer Sortie
         {{ form_row(sortieForm.enregistrer) }}
         {{ form_row(sortieForm.publier) }}
 
-    {% if id!=(0) %}
-    <button name="delete" type="submit"> Supprimer la sortie</button>
-    {% endif %}
+        {% if id!=(0) %}
+            <button id="sortie_delete" name="sortie[delete]" type="submit">Supprimer la sortie</button>
+        {% endif %}
 
     <button type="reset">Annuler</button>
     {{ form_end(sortieForm) }}
