@@ -66,7 +66,16 @@ class SortieController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/AfficherSortie/{id}", name="app_afficher")
+     */
+    public function afficher(int $id, SortieRepository $sortieRepository):Response
+    {
+        $sortie = $sortieRepository-> find($id);
+        return $this->render( 'Afficher/AfficherSortie.html.twig',[
+            'sortie' => $sortie
+        ]);
+    }
 }
 
 
