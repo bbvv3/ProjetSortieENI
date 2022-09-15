@@ -33,8 +33,13 @@ class SortieController extends AbstractController
         }else{
             // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();
+
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
+        if ($id==0)
+        {
+            $sortieForm->remove('delete');
+        }
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {

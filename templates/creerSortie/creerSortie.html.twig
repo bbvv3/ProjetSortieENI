@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% if id==(0) %}Creer {% else %}Modifier{% endif%} Sortie
+    {% if id==(0) %}Créer {% else %}Modifier{% endif%} Sortie
 {% endblock %}
 
 {% block body %}
 
-    <h2> {% if id==(0) %}Creer {% else %}Modifier{% endif%} une sortie</h2>
+    <h2> {% if id==(0) %}Créer {% else %}Modifier{% endif%} une sortie</h2>
     {{ form_start(sortieForm) }}
     {#  {{ form_widget(sortieForm) }}#}
         {{ form_row(sortieForm.nom) }}
@@ -21,11 +21,6 @@
         {{ form_row(sortieForm.enregistrer) }}
         {{ form_row(sortieForm.publier) }}
 
-        {% if id!=(0) %}
-            <button id="sortie_delete" name="sortie[delete]" type="submit">Supprimer la sortie</button>
-        {% endif %}
-
-    <button type="reset">Annuler</button>
     {{ form_end(sortieForm) }}
 
 
