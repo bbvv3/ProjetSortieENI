@@ -15,7 +15,8 @@ class ProfilController extends AbstractController
     /**
      * @Route("/monProfil", name="app_monProfil")
      */
-    public function monProfil(Request $request, ParticipantRepository $participantRepository): Response
+    public function monProfil(Request $request,
+                              ParticipantRepository $participantRepository): Response
     {
         $user = $this->getUser();
         // On appel le repository du participant et les tries avec leur mail et on utilise findOneBy pour le retrouver et il sera disponible de partout

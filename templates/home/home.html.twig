@@ -45,7 +45,7 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
                 <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
-                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etatSortie.libelle }}</td>
                 <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
@@ -74,6 +74,6 @@
         {% endfor %}
     </table>
 
-    <a href="{{ path('app_sortie') }}" title="creerSortie"><button>Créer Sortie</button></a>
+    <a href="{{ path('app_sortie',{'id' : 0 }) }}" title="creerSortie"><button>Créer Sortie</button></a>
 
 {% endblock %}

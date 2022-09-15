@@ -26,15 +26,25 @@ class MonProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo')
-            ->add('prenom')
-            ->add('nom')
-            ->add('telephone')
-            ->add('mail')
+            ->add('pseudo',TextType::class,[
+                'label'=>'Pseudo :'
+            ])
+            ->add('prenom',TextType::class,[
+                'label'=>'Prénom :'
+            ])
+            ->add('nom',TextType::class,[
+                'label'=>'Nom :'
+            ])
+            ->add('telephone',TextType::class,[
+                'label'=>'Téléphone :'
+            ])
+            ->add('mail',TextType::class,[
+                'label'=>'Mail :'
+            ])
             ->add('motPasse',RepeatedType::class,[
                 'mapped'=>false,
-                'first_options'  => ['label' => 'motPasse'],
-                'second_options' => ['label' => 'confirmation'],
+                'first_options'  => ['label' => 'motPasse :'],
+                'second_options' => ['label' => 'confirmation :'],
                 'constraints'=>[
                     new NotBlank([
                         'message'=>'ce champ doit être remplit',

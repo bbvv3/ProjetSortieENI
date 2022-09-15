@@ -1,6 +1,16 @@
+table, tr,th,td
+{
+    border: solid 1px black;
+    border-collapse: collapse;
+    padding: 5px;
+}
 #formLogin{
  min-height:75%
 }
 body,html{
  height:100%
+}
+.class
+{
+    text-align: center;
 }

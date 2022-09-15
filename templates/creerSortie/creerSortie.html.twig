@@ -1,14 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-
+Créer Sortie
 {% endblock %}
 
 {% block body %}
-    <h2>Creer une sortie</h2>
-{{ form_start(sortieForm) }}
-    {{ form_widget(sortieForm) }}
+
+    <h2> {% if id==(0) %}Creer {% else %}Modifier{% endif%} une sortie</h2>
+    {{ form_start(sortieForm) }}
+    {#  {{ form_widget(sortieForm) }}#}
+        {{ form_row(sortieForm.nom) }}
+        {{ form_row(sortieForm.dateHeureDebut) }}
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+        {{ form_row(sortieForm.duree) }}
+        {{ form_row(sortieForm.nbInscriptionsMax) }}
+        {{ form_row(sortieForm.infosSortie) }}
+        {{ form_row(sortieForm.organisateur) }}
+        {{ form_row(sortieForm.siteOrganisateur) }}
+        {{ form_row(sortieForm.lieuSortie) }}
+        {{ form_row(sortieForm.enregistrer) }}
+        {{ form_row(sortieForm.publier) }}
+
+    {% if id!=(0) %}
+    <button name="delete" type="submit"> Supprimer la sortie</button>
+    {% endif %}
 
     <button type="reset">Annuler</button>
     {{ form_end(sortieForm) }}
+
+
+
+
 {% endblock %}

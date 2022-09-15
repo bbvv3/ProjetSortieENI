@@ -3,9 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Sortie;
+use Doctrine\DBAL\Types\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 
+
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,12 +19,24 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('nom',TextType::class,[
                 'label'=>'Nom de la sortie'
             ])
-            ->add('dateHeureDebut')
-            ->add('dateLimiteInscription')
+            ->add('dateHeureDebut',DateType::class,[
+                'widget'=>'single_text',
+                'attr'=>[
+                    'min'=>(new \DateTime())->format('c')
+                ]
+            ])
+            ->add('dateLimiteInscription',DateType::class,[
+                'widget'=>'single_text',
+                'attr'=>[
+                    'min'=>(new \DateTime())->format('c')
+                ]
+
+            ])
             ->add('duree',IntegerType::class)
             ->add('nbInscriptionsMax',TextType::class,[
                 'label'=>'Nombre de places'
@@ -31,6 +47,7 @@ class SortieType extends AbstractType
             ->add('lieuSortie')
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
+
             ->getForm()
         ;
     }
