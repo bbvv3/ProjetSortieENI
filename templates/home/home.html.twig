@@ -50,7 +50,7 @@
                 <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{% if sortie.etatSortie.libelle == "En création" %}
-                        <a href="{# {{ path('app_modif',{'id' : sortie.id }) }} #}" title="modifier">Modifier</a>
+                        <a href=" {{ path('app_sortie',{'id' : sortie.id }) }} " title="modifier">Modifier</a>
                         - <a href="{# {{ path('app_publier',{'id' : sortie.id }) }} #}" title="publier">Publier</a>
                     {% else %}
                         <a href="{# {{ path('app_afficher',{'id' : sortie.id }) }} #}" title="afficher">Afficher</a>
