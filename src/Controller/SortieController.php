@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie/{id}", name="app_sortie")
+     * @Route("/gestionSortie/{id}", name="app_gestionSortie")
      */
     public function creationSortie(int                    $id,
                                    Request                $request,
@@ -59,6 +59,7 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView(),
         ]);
     }
+
 
 }
 
