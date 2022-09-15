@@ -25,14 +25,25 @@ class MainType extends AbstractType
             ])
             ->add('search', SearchType::class, [
                 'label' => 'Le nom de la sortie contient : ',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'search'
                 ]
             ])
-            //->add('datesSortie', DateType::class, [
-            //    'label' => 'Entre ',
-            //    'date' => date(Y-m-d),
-            //])
+            ->add('dateDebut',DateType::class,[
+                'label' => "Entre",
+                'widget'=>'single_text',
+                'attr'=>[
+                    'min'=>(new \DateTime())->format('c')
+                ]
+            ])
+            ->add('dateFin',DateType::class,[
+                'label' => "et",
+                'widget'=>'single_text',
+                'attr'=>[
+                    'min'=>(new \DateTime())->format('c')
+                ]
+            ])
             ->add('sortiesOrga', CheckboxType::class, [
                 'label'    => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false,

@@ -5,27 +5,33 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Sortir.com</h1>
-    <p>ici on doit afficher le tableau des sorties devra afficher l'état en cours /ouvert/ fermé/ En création</p><br>
-    <p>avec les champs suivant "Nom de la sortie/Date de la sortie/Clôture/inscrits.places/Etat/Inscrit/Organisateur/Actions</p>
-    <h3>Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
-    <h3>Participant : {{ app.user.getPseudo }} </h3>
+        <div>
+            <h3>Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
+            <h3>Participant : {{ app.user.getPseudo }} </h3>
+        </div>
 
-    <h3>Filtrer les sorties</h3>
-    <form action="">
+    <h4>Filtrer les sorties</h4>
 
-        <label for="dateDebut">Entre</label> <input type="date" name="dateDebut" id="dateDebut"> <label for="dateFin">et</label> <input type="date" name="dateFin" id="dateFin">
-
-    </form>
-
-    <p>------------------------------------</p>
       <div>
         {{ form_start(mainForm) }}
-
-        {{ form_widget(mainForm) }}
-
-        <button>Rechercher</button>
-
+          {# {{ form_widget(mainForm) }} #}
+          <div>
+              {{ form_row(mainForm.campus) }}
+              {{ form_row(mainForm.search) }}
+              <div>
+                  {{ form_row(mainForm.dateDebut) }}
+                  {{ form_row(mainForm.dateFin) }}
+              </div>
+          </div>
+          <div>
+              {{ form_row(mainForm.sortiesOrga) }}
+              {{ form_row(mainForm.sortiesInscrit) }}
+              {{ form_row(mainForm.sortiesNonInscrit) }}
+              {{ form_row(mainForm.sortiesPassee) }}
+          </div>
+          <div>
+            <button>Rechercher</button>
+          </div>
         {{ form_end(mainForm) }}
       </div>
 
@@ -45,7 +51,7 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
                 <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etatSortie.libelle }}</td>
                 <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
