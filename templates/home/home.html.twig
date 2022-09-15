@@ -8,8 +8,8 @@
     <h1>Sortir.com</h1>
     <p>ici on doit afficher le tableau des sorties devra afficher l'état en cours /ouvert/ fermé/ En création</p><br>
     <p>avec les champs suivant "Nom de la sortie/Date de la sortie/Clôture/inscrits.places/Etat/Inscrit/Organisateur/Actions</p>
-    <h2>Date du jour : {{ 'now' | date('d/m/Y') }}</h2>
-    <h2>Participant : {# todo : BDD vide, à dé-commenter quand BDD avec utilisateurs {{ app.user.userIdentifier }} #}</h2>
+    <h3>Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
+    <h3>Participant : {{ app.user.getPseudo }} </h3>
 
     <h3>Filtrer les sorties</h3>
     <form action="">
@@ -27,7 +27,7 @@
         <button>Rechercher</button>
 
         {{ form_end(mainForm) }}
-    </div>
+      </div>
 
     <table>
         <tr>
@@ -45,21 +45,35 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
                 <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etatSortie.libelle }}</td>
                 <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{% if sortie.etatSortie.libelle == "En création" %}
-                    <a href="{# {{ path('app_modif',{'id' : sortie.id }) }} #}" title="modifier">Modifier</a>
-                    {% endif %} -
-                    {% if sortie.etatSortie.libelle == "En création" %}
-                    <a href=""></a>
+                        <a href="{# {{ path('app_modif',{'id' : sortie.id }) }} #}" title="modifier">Modifier</a>
+                        - <a href="{# {{ path('app_publier',{'id' : sortie.id }) }} #}" title="publier">Publier</a>
+                    {% else %}
+                        <a href="{# {{ path('app_afficher',{'id' : sortie.id }) }} #}" title="afficher">Afficher</a>
+                    {% endif %}
+
+                    {% for participant in sortie.participants %}
+                        {% if participant == app.user %}
+                             - <a href="{# {{ path('app_desister',{'id' : sortie.id }) }} #}" title="desister">Se désister</a>
+                        {% else %}
+                             {% if sortie.etatSortie.libelle == "Ouverte" and ((sortie.participants | length ) < sortie.nbInscriptionsMax) and sortie.organisateur != app.user %}
+                                 - <a href="{# {{ path('app_inscrire',{'id' : sortie.id }) }} #}" title="inscrire">S'inscrire</a>
+                             {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if sortie.etatSortie.libelle == "Ouverte" and sortie.organisateur == app.user %}
+                        - <a href="{# {{ path('app_annuler',{'id' : sortie.id }) }} #}" title="annuler">Annuler</a>
                     {% endif %}
                 </td>
             </tr>
         {% endfor %}
     </table>
 
-    <button><a href="{{ path('app_sortie') }}" title="creerSortie">Créer Sortie</a></button>
+    <a href="{{ path('app_sortie') }}" title="creerSortie"><button>Créer Sortie</button></a>
 
 {% endblock %}
