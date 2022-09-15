@@ -23,7 +23,6 @@ class MainController extends AbstractController
         $mainForm = $this->createForm(MainType::class);
 
         $sorties = $sortieRepository->findAll();
-        $etats =  $etatRepository->findAll();
         //$query = "SELECT id, nom
         //            FROM etat
         //            INNER JOIN sortie
@@ -33,7 +32,6 @@ class MainController extends AbstractController
             // 'controller_name' => 'MainController',
             'mainForm'=>$mainForm->createView(),
             "sorties" => $sorties,
-            "etats" => $etats,
         ]);
     }
 }

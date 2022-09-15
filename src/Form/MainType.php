@@ -54,7 +54,7 @@ class MainType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sortie::class,
+            'data_class' => Sortie::class, //todo creer une nouvelle classe pour gerer les filtres
         ]);
     }
 }
