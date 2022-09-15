@@ -26,11 +26,12 @@ class SortieController extends AbstractController
                                    EntityManagerInterface $entityManager,
                                    EtatRepository         $etatRepository): Response
     {
-
+        // ici on recupere si le formulaire est deja rempli
         if($id !=0)
         {
             $creerSortie=$sortieRepository->find($id);
         }else{
+            // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
