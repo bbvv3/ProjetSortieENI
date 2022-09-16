@@ -29,7 +29,7 @@ class SortieController extends AbstractController
         // ici on recupere si le formulaire est deja rempli
         if($id !=0)
         {
-            $creerSortie=$sortieRepository->findModifSortie();
+            $creerSortie=$sortieRepository->findModifSortie($id);
         }else{
             // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();

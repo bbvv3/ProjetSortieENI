@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,31 +40,18 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findModifSortie()
+    public function findModifSortie(int $id)
 
     {
-        $entityManager=$this->getEntityManager();
-        $dql="
-            SELECT s
-               FROM App\Entity\Sortie s      
-        ";
-        $query=$entityManager->createQuery($dql);
-        $results= $query->getResult();
+
         // version queryBuilder
-
         $queryBuilder=$this->createQueryBuilder('s');
-        $queryBuilder->andWhere('s.nom');
-        $queryBuilder->andWhere('s.dateHeureDebut');
-        $queryBuilder->andWhere('s.dateLimiteInscription');
-        $queryBuilder->andWhere('s.duree');
-        $queryBuilder->andWhere('s.nbInscriptionsMax');
-        $queryBuilder->andWhere('s.infosSortie');
-        $queryBuilder->andWhere('s.siteOrganisateur');
-        $queryBuilder->andWhere('s.lieuSortie');
+        $queryBuilder->where('s.id = :id');
+        $queryBuilder->setParameter('id',$id);
+
         $query=$queryBuilder->getQuery();
+        return $query->getResult();
 
-
-        return $results;
 
     }
 }
