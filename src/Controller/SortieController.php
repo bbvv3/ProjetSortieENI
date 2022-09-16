@@ -26,24 +26,19 @@ class SortieController extends AbstractController
                                    EntityManagerInterface $entityManager,
                                    EtatRepository         $etatRepository): Response
     {
-        // ici on recupere si le formulaire est deja rempli
         if($id !=0)
         {
             $creerSortie=$sortieRepository->findModifSortie($id);
         }else{
-            // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();
             $creerSortie->setOrganisateur($this->getUser());
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
-        // ici on verifie pour que le boutton apparaisse ou pas
-        // en fonction de l'environement ou on se trouve
         if ($id==0)
         {
             $sortieForm->remove('delete');
         }
         $sortieForm->handleRequest($request);
-
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {
                 $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
@@ -60,7 +55,6 @@ class SortieController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('app_home');
         }
-
         return $this->render('creerSortie/creerSortie.html.twig', [
             'id' => $id,
             'sortieForm' => $sortieForm->createView(),
@@ -73,7 +67,7 @@ class SortieController extends AbstractController
      */
     public function afficher(int $id, SortieRepository $sortieRepository):Response
     {
-        $sortie = $sortieRepository-> find($id);
+        $sortie = $sortieRepository-> findModifSortie($id);
         return $this->render( 'Afficher/AfficherSortie.html.twig',[
             'sortie' => $sortie
         ]);

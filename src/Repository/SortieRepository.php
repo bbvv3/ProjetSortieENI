@@ -44,10 +44,9 @@ class SortieRepository extends ServiceEntityRepository
     {
         // version queryBuilder
         $queryBuilder=$this->createQueryBuilder('s')
-            ->leftJoin('s.organisateur', 'org')
             ->leftJoin('s.siteOrganisateur', 'site')
             ->leftJoin('s.lieuSortie', 'lieu')
-            ->addSelect('org', 'site', 'lieu')
+            ->addSelect('site', 'lieu')
             ->where('s.id = :id')
             ->setParameter('id', $id);
 

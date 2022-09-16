@@ -23,10 +23,6 @@ class MainController extends AbstractController
         $mainForm = $this->createForm(MainType::class);
 
         $sorties = $sortieRepository->findAll();
-        //$query = "SELECT id, nom
-        //            FROM etat
-        //            INNER JOIN sortie
-        //            ON etat.libelle = sortie.id"
 
         return $this->render('home/home.html.twig', [
             // 'controller_name' => 'MainController',
