@@ -63,6 +63,7 @@ class MonProfilType extends AbstractType
             ])
             ->add('telephone',TextType::class,[
                 'label'=>'Téléphone :',
+                'required'=>false,
                 //ici on défini la taille du label
                 'label_attr'=>[
                     'class'=> 'col-5 py-2'
@@ -86,7 +87,7 @@ class MonProfilType extends AbstractType
             ->add('motPasse',RepeatedType::class,[
 
                 'mapped'=>false,
-                'first_options'  => ['label' => 'motPasse :',
+                'first_options'  => ['label' => 'Mot de Passe :',
                     //ici on défini la taille du label
                     'label_attr'=>[
                         'class'=> 'col-5 py-2'
@@ -94,9 +95,11 @@ class MonProfilType extends AbstractType
                     // en dessou on definit la taille du champ
                     'attr'=>[
                         'class'=>'col-7',
+                        'pattern'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+                        'type'=>'password'
                     ]
                     ],
-                'second_options' => ['label' => 'confirmation :',
+                'second_options' => ['label' => 'Confirmation :',
                     //ici on défini la taille du label
                     'label_attr'=>[
                         'class'=> 'col-5 py-2'
@@ -104,6 +107,8 @@ class MonProfilType extends AbstractType
                     // en dessou on definit la taille du champ
                     'attr'=>[
                         'class'=>'col-7',
+                        'pattern'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+                        'type'=>'password'
                     ]
                 ],
                 'constraints'=>[

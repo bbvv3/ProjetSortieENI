@@ -4,6 +4,9 @@ table, tr,th,td
     border-collapse: collapse;
     padding: 5px;
 }
+p,td,th,label,input,a{
+    font-size: 1.2em;
+}
 #formLogin{
  min-height:75%
 }
@@ -11,4 +14,10 @@ body,html
 {
     height:100%;
 }
-
+#lienLogo{
+    text-decoration: none;
+    color: black;
+}
+#affichage p, #affichage span{
+    padding: 6px 0 6px 0;
+}

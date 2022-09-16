@@ -4,7 +4,7 @@
 
 {% block body %}
     <div id="formLogin" class="d-flex justify-content-center align-items-center">
-        <form method="post" class="col-3">
+        <form method="post" class="col-4">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -15,18 +15,18 @@
                 </div>
 
             {% else %}
-                <div class="d-flex py-2">
+                <div class="d-flex py-2 col-12">
                     <label for="inputMailOrPseudo" class="col-5">Identifiant :</label>
-                    <input type="text" value="{{ last_username }}" name="mail_or_pseudo" id="inputMailOrPseudo" class="form-control col-7" autocomplete="email" required autofocus>
+                    <input type="text" value="{{ last_username }}" name="mail_or_pseudo" id="inputMailOrPseudo" class="form-control" autocomplete="email" required autofocus>
                 </div>
-                <div class="d-flex py-2">
+                <div class="d-flex py-2 col-12">
                     <label for="inputPassword" class="col-5">Mot de passe :</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control col-7" autocomplete="current-password" required>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                 </div>
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
                 >
-                <div class="d-flex justify-content-between pt-4">
+                <div class="d-flex justify-content-between pt-4 col-12">
                     <button class="btn btn-lg btn-primary" type="submit">
                         Connexion
                     </button>
