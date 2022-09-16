@@ -33,7 +33,7 @@ class SortieController extends AbstractController
         }else{
             // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();
-
+            $creerSortie->setOrganisateur($this->getUser());
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
         // ici on verifie pour que le boutton apparaisse ou pas

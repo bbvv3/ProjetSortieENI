@@ -41,17 +41,14 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function findModifSortie(int $id)
-
     {
-
         // version queryBuilder
-        $queryBuilder=$this->createQueryBuilder('s');
-        $queryBuilder->where('s.id = :id');
-        $queryBuilder->setParameter('id',$id);
+        $queryBuilder=$this->createQueryBuilder('s')
+            ->where('s.id = :id')
+            ->setParameter('id', $id);
 
-        $query=$queryBuilder->getQuery();
-        return $query->getResult();
+        $query = $queryBuilder->getQuery();
 
-
+        return $query->execute();
     }
 }
