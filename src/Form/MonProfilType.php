@@ -26,25 +26,86 @@ class MonProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('pseudo',TextType::class,[
-                'label'=>'Pseudo :'
+                'label'=>'Pseudo :',
+                    //ici on défini la taille du label
+                    'label_attr'=>[
+                      'class'=> 'col-5 py-2'
+                    ],
+                    // en dessou on definit la taille du champ
+                    'attr'=>[
+                        'class'=>'col-7',
+                ],
+
             ])
             ->add('prenom',TextType::class,[
-                'label'=>'Prénom :'
+                'label'=>'Prénom :',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
             ])
             ->add('nom',TextType::class,[
-                'label'=>'Nom :'
+                'label'=>'Nom :',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
             ])
             ->add('telephone',TextType::class,[
-                'label'=>'Téléphone :'
+                'label'=>'Téléphone :',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
             ])
             ->add('mail',TextType::class,[
-                'label'=>'Mail :'
+                'label'=>'Mail :',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
             ])
             ->add('motPasse',RepeatedType::class,[
+
                 'mapped'=>false,
-                'first_options'  => ['label' => 'motPasse :'],
-                'second_options' => ['label' => 'confirmation :'],
+                'first_options'  => ['label' => 'motPasse :',
+                    //ici on défini la taille du label
+                    'label_attr'=>[
+                        'class'=> 'col-5 py-2'
+                    ],
+                    // en dessou on definit la taille du champ
+                    'attr'=>[
+                        'class'=>'col-7',
+                    ]
+                    ],
+                'second_options' => ['label' => 'confirmation :',
+                    //ici on défini la taille du label
+                    'label_attr'=>[
+                        'class'=> 'col-5 py-2'
+                    ],
+                    // en dessou on definit la taille du champ
+                    'attr'=>[
+                        'class'=>'col-7',
+                    ]
+                ],
                 'constraints'=>[
                     new NotBlank([
                         'message'=>'ce champ doit être remplit',
@@ -52,9 +113,18 @@ class MonProfilType extends AbstractType
                  ]
             ])
             ->add('campus',EntityType::class,[
+                    'label'=>'Campus',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
                     'class'=>Campus::class,
                     'choice_label'=>'nom',
-                    'disabled' => true
+                    'disabled' => true,
 
              ])
         ;

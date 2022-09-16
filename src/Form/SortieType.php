@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,12 +38,11 @@ class SortieType extends AbstractType
                 'label'=>'Nombre de places'
             ])
             ->add('infosSortie')
-            ->add('organisateur')
             ->add('siteOrganisateur')
             ->add('lieuSortie')
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
-            ->add('annuler', SubmitType::class,['label'=>'Annuler'])
+            ->add('annuler', ResetType::class,['label'=>'Annuler'])
             ->add('delete', SubmitType::class,['label'=>'Supprimer la sortie'])
             ->getForm()
         ;

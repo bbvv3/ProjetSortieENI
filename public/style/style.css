@@ -7,10 +7,8 @@ table, tr,th,td
 #formLogin{
  min-height:75%
 }
-body,html{
- height:100%
-}
-.class
+body,html
 {
-    text-align: center;
+    height:100%;
 }
+

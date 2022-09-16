@@ -39,28 +39,31 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findModifSortie()
 
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    {
+        $entityManager=$this->getEntityManager();
+        $dql="
+            SELECT s
+               FROM App\Entity\Sortie s      
+        ";
+        $query=$entityManager->createQuery($dql);
+        $results= $query->getResult();
+        // version queryBuilder
+
+        $queryBuilder=$this->createQueryBuilder('s');
+        $queryBuilder->andWhere('s.nom');
+        $queryBuilder->andWhere('s.dateHeureDebut');
+        $queryBuilder->andWhere('s.dateLimiteInscription');
+        $queryBuilder->andWhere('s.duree');
+        $queryBuilder->andWhere('s.nbInscriptionsMax');
+        $queryBuilder->andWhere('s.infosSortie');
+        $queryBuilder->andWhere('s.siteOrganisateur');
+        $queryBuilder->andWhere('s.lieuSortie');
+        $query=$queryBuilder->getQuery();
+
+
+        return $results;
+
+    }
 }

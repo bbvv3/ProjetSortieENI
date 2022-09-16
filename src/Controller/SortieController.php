@@ -29,13 +29,15 @@ class SortieController extends AbstractController
         // ici on recupere si le formulaire est deja rempli
         if($id !=0)
         {
-            $creerSortie=$sortieRepository->find($id);
+            $creerSortie=$sortieRepository->findModifSortie();
         }else{
             // si non ici on creer un nouveau formulaire
             $creerSortie=new Sortie();
 
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
+        // ici on verifie pour que le boutton apparaisse ou pas
+        // en fonction de l'environement ou on se trouve
         if ($id==0)
         {
             $sortieForm->remove('delete');
@@ -55,7 +57,6 @@ class SortieController extends AbstractController
                 $sortieForm->getClickedButton() === $sortieForm->get('delete');
                 $entityManager->remove($creerSortie);
             }
-
             $entityManager->flush();
             return $this->redirectToRoute('app_home');
         }
@@ -65,6 +66,7 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView(),
         ]);
     }
+
 
     /**
      * @Route("/AfficherSortie/{id}", name="app_afficher")
@@ -76,6 +78,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
 }
 
 
