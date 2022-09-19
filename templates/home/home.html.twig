@@ -10,47 +10,6 @@
             <h3>Participant : {{ app.user.getPseudo }} </h3>
         </div>
 
-    <h4>Filtrer les sorties</h4>
-
-      <div>
-        {{ form_start(mainForm) }}
-          {# {{ form_widget(mainForm) }} #}
-          <div>
-              {{ form_row(mainForm.campus) }}
-              {{ form_row(mainForm.search) }}
-              <div>
-                  {{ form_row(mainForm.dateDebut) }}
-                  {{ form_row(mainForm.dateFin) }}
-              </div>
-          </div>
-          <div>
-              <div>
-                  {{ form_widget(mainForm.sortiesOrga) }}
-                  {{ form_label(mainForm.sortiesOrga) }}
-                  {{ form_errors(mainForm.sortiesOrga) }}
-              </div>
-              <div>
-                  {{ form_widget(mainForm.sortiesInscrit) }}
-                  {{ form_label(mainForm.sortiesInscrit) }}
-                  {{ form_errors(mainForm.sortiesInscrit) }}
-              </div>
-              <div>
-                  {{ form_widget(mainForm.sortiesNonInscrit) }}
-                  {{ form_label(mainForm.sortiesNonInscrit) }}
-                  {{ form_errors(mainForm.sortiesNonInscrit) }}
-              </div>
-              <div>
-                  {{ form_widget(mainForm.sortiesPassee) }}
-                  {{ form_label(mainForm.sortiesPassee) }}
-                  {{ form_errors(mainForm.sortiesPassee) }}
-              </div>
-          </div>
-          <div>
-            <button>Rechercher</button>
-          </div>
-        {{ form_end(mainForm) }}
-      </div>
-
     <table>
         <tr>
             <th>Nom de la sortie</th>

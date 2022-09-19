@@ -21,19 +21,13 @@ class MainController extends AbstractController
     /**
      * @Route("", name="_home")
      */
-    public function home(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
+    public function home(Request $request, SortieRepository $sortieRepository): Response
     {
-        $mail = $this->getUser()->getUserIdentifier();
-        $utilisateur = new Participant();
-        $utilisateur = $participantRepository->findBy(['mail'=>$mail]);
-        $campus = $utilisateur->getCampus();
-
-        $rechercherSortie = new RechercherSortie($mail);
-        $mainForm = $this->createForm(MainType::class, $rechercherSortie);
-        $mainForm->handleRequest($request);
+        //$mainForm = $this->createForm(MainType::class);
+        //$mainForm->handleRequest($request);
         $sorties = $sortieRepository->findAll();
         return $this->render('home/home.html.twig', [
-            'mainForm'=>$mainForm->createView(),
+            //'mainForm'=>$mainForm->createView(),
             "sorties" => $sorties,
         ]);
     }
