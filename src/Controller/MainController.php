@@ -32,8 +32,10 @@ class MainController extends AbstractController
 
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();
+        $filtres = new Filtres();
+        $filtres->setCampus($campus);
         //recupération du tableau de sorties
-        $sorties = $sortieRepository->findSortieHome($campus);
+        $sorties = $sortieRepository->findSortieHome($filtres);
 
         //redirection vers la page
         return $this->render('home/home.html.twig', [
@@ -43,9 +45,9 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("inscrire/{id}", name="inscrire")
+     * @Route("inscrire/{id}", name="_inscrire")
      */
-    public function inscrire (int $id, Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
+    public function inscrire(int $id, Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
         $inscrireSortie = $sortieRepository->find($id);
         $inscrireSortie->addParticipant($this->getUser());
@@ -53,10 +55,6 @@ class MainController extends AbstractController
         $entityManager->persist($inscrireSortie);
         $entityManager->flush();
 
-
-        return $this->render('home/home.html.twig', [
-            'id' => $id,
-            'sortieForm' => $sortieForm->createView(),
-        ]);
+        return $this->redirectToRoute('app_home');
     }
 }

@@ -40,6 +40,16 @@ class Filtres
     private $estInscrit;
 
     /**
+     * @var null|Boolean
+     */
+    private $pasInscrit;
+
+    /**
+     * @var null|Boolean
+     */
+    private $estPasse;
+
+    /**
      * @return Boolean|null
      */
     public function getEstOrganisateur(): ?Boolean
@@ -55,15 +65,7 @@ class Filtres
         $this->estOrganisateur = $estOrganisateur;
     }
 
-    /**
-     * @var null|Boolean
-     */
-    private $pasInscrit;
 
-    /**
-     * @var null|Boolean
-     */
-    private $estPasse;
 
     /**
      * @return Campus

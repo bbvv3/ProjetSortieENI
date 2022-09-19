@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Models\Filtres;
@@ -60,16 +61,17 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findSortieHome(Campus $campus){
+    public function findSortieHome(Filtres $filtres){
         $queryBuilder = $this->createQueryBuilder('s')
             //organisateur->leftJoin()
             //campus->leftJoin()
             //participants->leftJoin()
-            //etat->leftJoin
-            //->addSelect(etc.)
+            //->leftJoin('s.etatSortie', 'etat')
+            //->addSelect('etat')
             ->where('s.siteOrganisateur = :campus')
-            ->setParameter('campus', $campus)
-            //->addWhere('s.')
+            ->setParameter('campus', $filtres->getCampus())
+            //->addWhere('s.etatSortie :etat')
+            //->setParameter('etat', $etat)
 
             ;
 
