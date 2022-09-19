@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
-
+    <div class="text-center">
     <h2> {% if id==(0) %}Créer {% else %}Modifier{% endif%} une sortie</h2>
-    {{ form_start(sortieForm) }}
+    <div class="d-flex justify-content-center align-self-center my-4">
+    {{ form_start(sortieForm,{'attr':{'class':'col-4'}}) }}
     {#  {{ form_widget(sortieForm) }}#}
         {{ form_row(sortieForm.nom) }}
         {{ form_row(sortieForm.dateHeureDebut) }}
@@ -21,8 +22,8 @@
         {{ form_row(sortieForm.publier) }}
 
     {{ form_end(sortieForm) }}
-
-
+    </div>
+    </div>
 
 
 {% endblock %}

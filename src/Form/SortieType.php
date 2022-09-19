@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +20,16 @@ class SortieType extends AbstractType
 
         $builder
             ->add('nom',TextType::class,[
-                'label'=>'Nom de la sortie'
+                'label'=>'Nom de la sortie',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
+
             ])
             ->add('dateHeureDebut',DateType::class,[
                 'widget'=>'single_text',
@@ -33,11 +43,39 @@ class SortieType extends AbstractType
                     'min'=>(new \DateTime())->format('c')
                 ]
             ])
-            ->add('duree',IntegerType::class)
-            ->add('nbInscriptionsMax',TextType::class,[
-                'label'=>'Nombre de places'
+            ->add('duree',IntegerType::class,[
+                'label'=>'Durée',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
             ])
-            ->add('infosSortie')
+            ->add('nbInscriptionsMax',TextType::class,[
+                'label'=>'Nombre de places',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
+            ])
+            ->add('infosSortie',TextareaType::class,[
+                'label'=>'Info sortie',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
+            ])
             ->add('siteOrganisateur')
             ->add('lieuSortie')
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
