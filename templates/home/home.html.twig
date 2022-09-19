@@ -10,6 +10,48 @@
             <h3>Participant : {{ app.user.getPseudo }} </h3>
         </div>
 
+    <h4>Filtrer les sorties</h4>
+
+      <div>
+        {{ form_start(mainForm) }}
+          {# {{ form_widget(mainForm) }} #}
+          <div>
+              {{ form_row(mainForm.campus) }}
+              {{ form_row(mainForm.search) }}
+              <div>
+                  {{ form_row(mainForm.dateDebut) }}
+                  {{ form_row(mainForm.dateFin) }}
+              </div>
+          </div>
+          <div>
+              <div>
+                  {{ form_widget(mainForm.estOrganisateur) }}
+                  {{ form_label(mainForm.estOrganisateur) }}
+                  {{ form_errors(mainForm.estOrganisateur) }}
+              </div>
+              <div>
+                  {{ form_widget(mainForm.estInscrit) }}
+                  {{ form_label(mainForm.estInscrit) }}
+                  {{ form_errors(mainForm.estInscrit) }}
+              </div>
+              <div>
+                  {{ form_widget(mainForm.pasInscrit) }}
+                  {{ form_label(mainForm.pasInscrit) }}
+                  {{ form_errors(mainForm.pasInscrit) }}
+              </div>
+              <div>
+                  {{ form_widget(mainForm.estPasse) }}
+                  {{ form_label(mainForm.estPasse) }}
+                  {{ form_errors(mainForm.estPasse) }}
+              </div>
+          </div>
+
+          <div>
+            <button>Rechercher</button>
+          </div>
+        {{ form_end(mainForm) }}
+      </div>
+
     <table>
         <tr>
             <th>Nom de la sortie</th>

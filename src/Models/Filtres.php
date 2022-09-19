@@ -4,19 +4,11 @@ namespace App\Models;
 
 use App\Entity\Campus;
 use App\Repository\SortieRepository;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints\Date;
 
-class RechercherSortie
+class Filtres
 {
-
-    /**
-     * @param Campus $campus
-     */public function __construct(Campus $campus)
-        {
-            $this->campus = $campus;
-        }
-
-
     /**
      * @var Campus
      */
@@ -25,7 +17,7 @@ class RechercherSortie
     /**
      * @var null|string
      */
-    private $search = '';
+    private $search;
 
     /**
      * @var null|date
@@ -38,10 +30,40 @@ class RechercherSortie
     private $dateFin;
 
     /**
-     * @var string[]
+     * @var null|Boolean
      */
-    private $checkbox = [];
+    private $estOrganisateur;
 
+    /**
+     * @var null|Boolean
+     */
+    private $estInscrit;
+
+    /**
+     * @return Boolean|null
+     */
+    public function getEstOrganisateur(): ?Boolean
+    {
+        return $this->estOrganisateur;
+    }
+
+    /**
+     * @param Boolean|null $estOrganisateur
+     */
+    public function setEstOrganisateur(?Boolean $estOrganisateur): void
+    {
+        $this->estOrganisateur = $estOrganisateur;
+    }
+
+    /**
+     * @var null|Boolean
+     */
+    private $pasInscrit;
+
+    /**
+     * @var null|Boolean
+     */
+    private $estPasse;
 
     /**
      * @return Campus
@@ -49,6 +71,54 @@ class RechercherSortie
     public function getCampus(): Campus
     {
         return $this->campus;
+    }
+
+    /**
+     * @return Boolean|null
+     */
+    public function getEstInscrit(): ?Boolean
+    {
+        return $this->estInscrit;
+    }
+
+    /**
+     * @param Boolean|null $estInscrit
+     */
+    public function setEstInscrit(?Boolean $estInscrit): void
+    {
+        $this->estInscrit = $estInscrit;
+    }
+
+    /**
+     * @return Boolean|null
+     */
+    public function getPasInscrit(): ?Boolean
+    {
+        return $this->pasInscrit;
+    }
+
+    /**
+     * @param Boolean|null $pasInscrit
+     */
+    public function setPasInscrit(?Boolean $pasInscrit): void
+    {
+        $this->pasInscrit = $pasInscrit;
+    }
+
+    /**
+     * @return Boolean|null
+     */
+    public function getEstPasse(): ?Boolean
+    {
+        return $this->estPasse;
+    }
+
+    /**
+     * @param Boolean|null $estPasse
+     */
+    public function setEstPasse(?Boolean $estPasse): void
+    {
+        $this->estPasse = $estPasse;
     }
 
     /**

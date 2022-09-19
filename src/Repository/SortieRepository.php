@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Entity\Sortie;
-use App\Models\RechercherSortie;
+use App\Models\Filtres;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
@@ -59,6 +60,20 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
+    public function findSortieHome(Campus $campus){
+        $queryBuilder = $this->createQueryBuilder('s')
+            //organisateur->leftJoin()
+            //campus->leftJoin()
+            //participants->leftJoin()
+            //etat->leftJoin
+            //->addSelect(etc.)
+            ->where('s.siteOrganisateur = :campus')
+            ->setParameter('campus', $campus)
+            //suite
+            ;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
     //public function rechercher(FormInterface $form)
     //{
 

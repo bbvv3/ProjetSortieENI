@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Models\RechercherSortie;
+use App\Models\Filtres;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -46,24 +46,24 @@ class MainType extends AbstractType
                     'min'=>(new \DateTime())->format('c')
                 ]
             ])
-            ->add('checkbox', ChoiceType::class, [
-                'choices' =>
-                    [
-                    'Sorties dont je suis l\'organisateur/trice' => 'sortiesOrga',
-                    'Sorties auxquelles je suis inscrit/e' => 'sortiesInscrit',
-                    'Sorties auxquelles je ne suis pas inscrit/e' => 'sortiesNonInscrit',
-                    'Sorties passées' => 'sortiesPassee'
-                    ],
-                'required' => false,
-                'multiple' => true,
-                'expanded' => true,
-            ]);
+            ->add('estOrganisateur', CheckboxType::class, [
+                'label' => 'Sorties dont je suis l\'organisateur/trice'
+                ])
+            ->add('estInscrit', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je suis inscrit/e'
+                ])
+            ->add('pasInscrit', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je ne suis pas inscrit/e'
+                ])
+            ->add('estPasse', CheckboxType::class, [
+                'label' => 'Sorties passées'
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RechercherSortie::class,
+            'data_class' => Filtres::class,
         ]);
     }
 }
