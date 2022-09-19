@@ -91,7 +91,7 @@
                         - <a href="{# {{ path('app_desister',{'id' : sortie.id }) }} #}" title="desister">Se désister</a>
                     {% else %}
                         {% if sortie.etatSortie.libelle == "Ouverte" and (sortie.participants |length) < (sortie.nbInscriptionsMax) and sortie.organisateur != app.user %}
-                            - <a href="{# {{ path('app_inscrire',{'id' : sortie.id }) }} #}" title="inscrire">S'inscrire</a>
+                            - <a href="{{ path('app_inscrire',{'id' : sortie.id }) }}" title="inscrire">S'inscrire</a>
                         {% endif %}
                     {% endif %}
 

@@ -30,7 +30,7 @@ class MainType extends AbstractType
                     'placeholder' => 'search'
                 ]
             ])
-            ->add('dateDebut',DateType::class,[
+            ->add('dateDebut',DateType::class, [
                 'label' => "Entre",
                 'required' => false,
                 'widget'=>'single_text',
