@@ -47,16 +47,20 @@ class MainType extends AbstractType
                 ]
             ])
             ->add('estOrganisateur', CheckboxType::class, [
-                'label' => 'Sorties dont je suis l\'organisateur/trice'
+                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'required' => false
                 ])
             ->add('estInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je suis inscrit/e'
+                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'required' => false
                 ])
             ->add('pasInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e'
+                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'required' => false
                 ])
             ->add('estPasse', CheckboxType::class, [
-                'label' => 'Sorties passées'
+                'label' => 'Sorties passées',
+                'required' => false
                 ]);
     }
 
