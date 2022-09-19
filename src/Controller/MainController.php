@@ -27,7 +27,7 @@ class MainController extends AbstractController
         //création et récupération des filtres
         $mainForm = $this->createForm(MainType::class);
         $mainForm->handleRequest($request);
-        //if($mainForm->isSubmitted() && $mainForm->isValid()){}
+        //if($mainForm->isSubmitted() && $mainForm->isValid()){ }
 
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();

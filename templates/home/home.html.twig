@@ -79,17 +79,22 @@
                         <a href="{{ path('app_afficher',{'id' : sortie.id }) }}" title="afficher">Afficher</a>
                     {% endif %}
 
+                    {% set inscrit = false %}
 
                     {% for participant in sortie.participants %}
-
                         {% if participant == app.user %}
-                             - <a href="{# {{ path('app_desister',{'id' : sortie.id }) }} #}" title="desister">Se désister</a>
-                        {% else %}
-                             {% if sortie.etatSortie.libelle == "Ouverte" and (sortie.participants |length) < (sortie.nbInscriptionsMax) and sortie.organisateur != app.user %}
-                                 - <a href="{# {{ path('app_inscrire',{'id' : sortie.id }) }} #}" title="inscrire">S'inscrire</a>
-                             {% endif %}
+                            {% set inscrit = true %}
                         {% endif %}
                     {% endfor %}
+
+                    {% if inscrit == true %}
+                        - <a href="{# {{ path('app_desister',{'id' : sortie.id }) }} #}" title="desister">Se désister</a>
+                    {% else %}
+                        {% if sortie.etatSortie.libelle == "Ouverte" and (sortie.participants |length) < (sortie.nbInscriptionsMax) and sortie.organisateur != app.user %}
+                            - <a href="{# {{ path('app_inscrire',{'id' : sortie.id }) }} #}" title="inscrire">S'inscrire</a>
+                        {% endif %}
+                    {% endif %}
+
                     {% if sortie.etatSortie.libelle == "Ouverte" and sortie.organisateur == app.user %}
                         - <a href="{# {{ path('app_annuler',{'id' : sortie.id }) }} #}" title="annuler">Annuler</a>
                     {% endif %}

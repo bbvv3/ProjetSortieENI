@@ -69,7 +69,8 @@ class SortieRepository extends ServiceEntityRepository
             //->addSelect(etc.)
             ->where('s.siteOrganisateur = :campus')
             ->setParameter('campus', $campus)
-            //suite
+            //->addWhere('s.')
+
             ;
 
         return $queryBuilder->getQuery()->getResult();
