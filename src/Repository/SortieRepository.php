@@ -2,10 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Models\RechercherSortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -55,4 +58,28 @@ class SortieRepository extends ServiceEntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    //public function rechercher(FormInterface $form)
+    //{
+
+    //    $queryBuilder = $this->createQueryBuilder('r');
+
+    //    if($form->getCampus()) {
+    //        $queryBuilder
+    //            ->where("r.campus = :campus")
+    //            ->setParameter("campus", $form->getCampus())
+    //       ;
+    //    }
+
+        //$queryBuilder->andWhere('r.dateDebut')
+        //$queryBuilder->andWhere('r.dateFin');
+        //$queryBuilder->andWhere('r.sortiesOrga');
+        //$queryBuilder->andWhere('r.sortiesInscrit');
+        //$queryBuilder->andWhere('r.sortiesNonInscrit');
+        //$queryBuilder->andWhere('r.sortiesPassee');
+
+    //    $query = $queryBuilder->getQuery();
+    //    $results = $query->getResult();
+    //    return $results;
+    //}
 }

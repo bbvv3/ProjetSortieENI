@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Entity\Sortie;
+use App\Models\RechercherSortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -32,6 +32,7 @@ class MainType extends AbstractType
             ])
             ->add('dateDebut',DateType::class,[
                 'label' => "Entre",
+                'required' => false,
                 'widget'=>'single_text',
                 'attr'=>[
                     'min'=>(new \DateTime())->format('c')
@@ -39,33 +40,30 @@ class MainType extends AbstractType
             ])
             ->add('dateFin',DateType::class,[
                 'label' => "et",
+                'required' => false,
                 'widget'=>'single_text',
                 'attr'=>[
                     'min'=>(new \DateTime())->format('c')
                 ]
             ])
-            ->add('sortiesOrga', CheckboxType::class, [
-                'label'    => 'Sorties dont je suis l\'organisateur/trice',
+            ->add('checkbox', ChoiceType::class, [
+                'choices' =>
+                    [
+                    'Sorties dont je suis l\'organisateur/trice' => 'sortiesOrga',
+                    'Sorties auxquelles je suis inscrit/e' => 'sortiesInscrit',
+                    'Sorties auxquelles je ne suis pas inscrit/e' => 'sortiesNonInscrit',
+                    'Sorties passées' => 'sortiesPassee'
+                    ],
                 'required' => false,
-            ])
-            ->add('sortiesInscrit', CheckboxType::class, [
-                'label'    => 'Sorties auxquelles je suis inscrit/e',
-                'required' => false,
-            ])
-            ->add('sortiesNonInscrit', CheckboxType::class, [
-                'label'    => 'Sorties auxquelles je ne suis pas inscrit/e',
-                'required' => false,
-            ])
-            ->add('sortiesPassee', CheckboxType::class, [
-                'label'    => 'Sorties passées',
-                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sortie::class, //todo creer une nouvelle classe pour gerer les filtres
+            'data_class' => RechercherSortie::class,
         ]);
     }
 }
