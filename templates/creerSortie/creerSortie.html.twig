@@ -10,17 +10,22 @@
     <div class="d-flex justify-content-center align-self-center my-4">
     {{ form_start(sortieForm,{'attr':{'class':'col-4'}}) }}
     {#  {{ form_widget(sortieForm) }}#}
-        {{ form_row(sortieForm.nom) }}
-        {{ form_row(sortieForm.dateHeureDebut) }}
-        {{ form_row(sortieForm.dateLimiteInscription) }}
-        {{ form_row(sortieForm.duree) }}
-        {{ form_row(sortieForm.nbInscriptionsMax) }}
-        {{ form_row(sortieForm.infosSortie) }}
-        {{ form_row(sortieForm.siteOrganisateur) }}
-        {{ form_row(sortieForm.lieuSortie) }}
-        {{ form_row(sortieForm.enregistrer) }}
-        {{ form_row(sortieForm.publier) }}
-
+        <div>
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.nbInscriptionsMax) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.infosSortie) }}
+        </div>
+        <div>
+            {{ form_row(sortieForm.siteOrganisateur) }}
+            {{ form_row(sortieForm.lieuSortie) }}
+        </div>
+        <div class="">
+            {{ form_row(sortieForm.enregistrer) }}
+            {{ form_row(sortieForm.publier) }}
+        </div>
     {{ form_end(sortieForm) }}
     </div>
     </div>

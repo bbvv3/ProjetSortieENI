@@ -26,7 +26,7 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
                 <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
-                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax}}</td>
                 <td>{{ sortie.etatSortie.libelle }}</td>
                 <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
@@ -41,12 +41,11 @@
                         {% if participant == app.user %}
                              - <a href="{# {{ path('app_desister',{'id' : sortie.id }) }} #}" title="desister">Se désister</a>
                         {% else %}
-                             {% if sortie.etatSortie.libelle == "Ouverte" and ((sortie.participants | length ) < sortie.nbInscriptionsMax) and sortie.organisateur != app.user %}
+                             {% if sortie.etatSortie.libelle == "Ouverte" and sortie.organisateur != app.user and ((sortie.participants |length ) < (sortie.nbInscriptionsMax))%}
                                  - <a href="{# {{ path('app_inscrire',{'id' : sortie.id }) }} #}" title="inscrire">S'inscrire</a>
                              {% endif %}
                         {% endif %}
                     {% endfor %}
-
                     {% if sortie.etatSortie.libelle == "Ouverte" and sortie.organisateur == app.user %}
                         - <a href="{# {{ path('app_annuler',{'id' : sortie.id }) }} #}" title="annuler">Annuler</a>
                     {% endif %}

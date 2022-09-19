@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,7 +52,7 @@ class Sortie
      * @Assert\NotBlank(message="Merci de saisir le nombre maximum d'inscriptions")
      * @ORM\Column(type="integer")
      */
-    private $nbInscriptionsMax;
+    private $nbInscriptionsMax ;
 
     /**
      * @Assert\NotBlank(message="Merci de saisir les informations de la sortie")
@@ -89,6 +88,8 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $etatSortie;
+
+
 
     public function __construct()
     {
@@ -153,7 +154,7 @@ class Sortie
 
     public function setNbInscriptionsMax(int $nbInscriptionsMax): self
     {
-        $this->nbInscriptionsMax = $nbInscriptionsMax;
+        $this->nbInscriptionsMax  = $nbInscriptionsMax;
 
         return $this;
     }
@@ -165,7 +166,7 @@ class Sortie
 
     public function setInfosSortie(string $infosSortie): self
     {
-        $this->infosSortie = $infosSortie;
+        $this->infosSortie = $infosSortie ;
 
         return $this;
     }
@@ -221,6 +222,19 @@ class Sortie
         return $this;
     }
 
+    public function getCodePostal():?ville
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(?campus $codePostal):self
+    {
+        $this->codePostal=$codePostal;
+
+        return $this;
+    }
+
+
     public function getLieuSortie(): ?Lieu
     {
         return $this->lieuSortie;
@@ -230,6 +244,15 @@ class Sortie
     {
         $this->lieuSortie = $lieuSortie;
 
+        return $this;
+    }
+    public function getRueSortie():?Lieu
+    {
+        return $this->RueSortie;
+    }
+    public function setRueSortie(?Lieu $rueSortie):self
+    {
+        $this->RueSortie =$rueSortie;
         return $this;
     }
 

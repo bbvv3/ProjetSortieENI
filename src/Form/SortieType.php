@@ -2,8 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -12,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Sodium\add;
 
 class SortieType extends AbstractType
 {
@@ -34,7 +40,8 @@ class SortieType extends AbstractType
             ->add('dateHeureDebut',DateType::class,[
                 'widget'=>'single_text',
                 'attr'=>[
-                    'min'=>(new \DateTime())->format('c')
+                    'min'=>(new \DateTime())->format('c'),
+                    'label'=>'Date heure début'
                 ]
             ])
             ->add('dateLimiteInscription',DateType::class,[
@@ -76,8 +83,26 @@ class SortieType extends AbstractType
                     'class'=>'col-7',
                 ],
             ])
-            ->add('siteOrganisateur')
-            ->add('lieuSortie')
+            ->add('siteOrganisateur',EntityType::class,[
+                'label'=>'Site organisateur',
+                //ici on défini la taille du label
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
+                'attr'=>[
+                    'class'=>'col-7',
+                ],
+                    'class'=>Campus::class,
+                    'choice_label'=>'nom',
+                ])
+            ->add('lieuSortie',EntityType::class,[
+                'label'=>'Lieu sortie',
+                'class'=>Lieu::class,
+                'choice_label'=>'nom'
+            ])
+
+
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
             ->add('annuler', ResetType::class,['label'=>'Annuler'])
