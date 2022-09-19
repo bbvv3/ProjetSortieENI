@@ -57,4 +57,18 @@ class MainController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    /**
+     * @Route("/desister/{id}", name="_desister")
+     */
+    public function seDesister(int $id, Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    {
+        $seDesisterSortie = $sortieRepository->find($id);
+        $seDesisterSortie->removeParticipant($this->getUser());
+
+        $entityManager->remove($seDesisterSortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute( 'app_home');
+    }
 }
