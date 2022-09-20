@@ -25,20 +25,21 @@ class MainController extends AbstractController
      */
     public function home(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
     {
-        //création des filtres
-        $filtresRempli = new Filtres();
-        $mainForm = $this->createForm(MainType::class /*, $filtresRempli*/);
-        $mainForm->handleRequest($request);
-
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();
         $filtres = new Filtres();
         $filtres->setCampus($campus);
 
+        //création des filtres
+        $filtresRempli = new Filtres();
+        $filtresRempli->setCampus($campus);
+        $mainForm = $this->createForm(MainType::class, $filtresRempli);
+        $mainForm->handleRequest($request);
+
         //application des filtres
-        //if($mainForm->isSubmitted() && $mainForm->isValid()){
-        //    $filtres = $filtresRempli;
-        //}
+        if($mainForm->isSubmitted() && $mainForm->isValid()){
+            $filtres = $filtresRempli;
+        }
         //ajout de l'utilisateur actuel
         $filtres->setUtilisateurActuel($this->getUser());
 
