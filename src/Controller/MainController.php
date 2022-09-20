@@ -97,13 +97,13 @@ class MainController extends AbstractController
     /**
      * @Route("/publier/{id}", name="_publier")
      */
-    public function publier(int $id, Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    public function publier(int $id, Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
     {
         $publierSortie = $sortieRepository->find($id);
-        $publierSortie->removeParticipant($this->getEtatSortie());
+        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
 
         $publierSortie->setEtatSortie($etat);
-        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+
 
         $entityManager->persist($publierSortie);
         $entityManager->flush();
