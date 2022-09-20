@@ -74,7 +74,7 @@
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{% if sortie.etatSortie.libelle == "En création" %}
                         <a href=" {{ path('app_gestionSortie',{'id' : sortie.id }) }} " title="modifier">Modifier</a>
-                        - <a href="{# {{ path('app_publier',{'id' : sortie.id }) }} #}" title="publier">Publier</a>
+                        - <a href=" {{ path('app_publier',{'id' : sortie.id }) }}" title="publier">Publier</a>
                     {% else %}
                         <a href="{{ path('app_afficher',{'id' : sortie.id }) }}" title="afficher">Afficher</a>
                     {% endif %}

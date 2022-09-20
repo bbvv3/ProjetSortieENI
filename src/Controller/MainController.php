@@ -47,21 +47,26 @@ class MainController extends AbstractController
     /**
      * @Route("inscrire/{id}", name="_inscrire")
      */
-    public function inscrire(int $id, Request $request, ParticipantRepository $participantRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
+    public function inscrire(int $id, Request $request,
+                             ParticipantRepository $participantRepository,
+                             EtatRepository $etatRepository,
+                             EntityManagerInterface $entityManager,
+                             SortieRepository $sortieRepository): Response
     {
         $inscrireSortie = $sortieRepository->find($id);
         if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
             $inscrireSortie->addParticipant($this->getUser());
             $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
             $inscrireSortie->setEtatSortie($etat);
-            $entityManager->persist($inscrireSortie);
+
         } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
-            $inscrireSortie->addParticipant($this->getUser());
+            $inscrireSortie->addParticipant()($this->getUser());
             $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
             $inscrireSortie->setEtatSortie($etat);
-            $entityManager->persist($inscrireSortie);
+
         }
         // todo : sortie.organisateur != app.user and (sortie.dateLimiteInscription) < 'now'
+        $entityManager->persist($inscrireSortie);
         $entityManager->flush();
         return $this->redirectToRoute('app_home');
     }
@@ -69,10 +74,19 @@ class MainController extends AbstractController
     /**
      * @Route("/desister/{id}", name="_desister")
      */
-    public function seDesister(int $id, Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    public function seDesister(int $id, Request $request, SortieRepository $sortieRepository,EtatRepository $etatRepository,EntityManagerInterface $entityManager):Response
     {
         $seDesisterSortie = $sortieRepository->find($id);
-        $seDesisterSortie->removeParticipant($this->getUser());
+        if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
+            $seDesisterSortie->removeParticipant($this->getUser());
+            $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+            $seDesisterSortie->setEtatSortie($etat);
+
+        } else if (count($seDesisterSortie->getParticipants()) <= $seDesisterSortie->getNbInscriptionsMax()) {
+            $seDesisterSortie->removeParticipant($this->getUser());
+
+
+        }
 
         $entityManager->persist($seDesisterSortie);
         $entityManager->flush();
