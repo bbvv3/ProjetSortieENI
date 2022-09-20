@@ -65,7 +65,7 @@ class MainController extends AbstractController
             $inscrireSortie->setEtatSortie($etat);
 
         }
-        // todo : sortie.organisateur != app.user and (sortie.dateLimiteInscription) < 'now'
+
         $entityManager->persist($inscrireSortie);
         $entityManager->flush();
         return $this->redirectToRoute('app_home');
