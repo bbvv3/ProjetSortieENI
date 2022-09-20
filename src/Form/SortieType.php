@@ -39,16 +39,29 @@ class SortieType extends AbstractType
             ])
             ->add('dateHeureDebut',DateType::class,[
                 'widget'=>'single_text',
+                'label'=>'Date heure début',
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
                 'attr'=>[
+                    'class'=>'col-7',
                     'min'=>(new \DateTime())->format('c'),
-                    'label'=>'Date heure début'
-                ]
+                ],
+
             ])
             ->add('dateLimiteInscription',DateType::class,[
                 'widget'=>'single_text',
+                'label'=> 'Date limite inscription',
+                'label_attr'=>[
+                    'class'=> 'col-5 py-2'
+                ],
+                // en dessou on definit la taille du champ
                 'attr'=>[
+                    'class'=>'col-7',
                     'min'=>(new \DateTime())->format('c')
-                ]
+                ],
+
             ])
             ->add('duree',IntegerType::class,[
                 'label'=>'Durée',
@@ -103,10 +116,30 @@ class SortieType extends AbstractType
             ])
 
 
-            ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
-            ->add('annuler', ResetType::class,['label'=>'Annuler'])
-            ->add('delete', SubmitType::class,['label'=>'Supprimer la sortie'])
+            ->add('enregistrer', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr'=>[
+                    'class'=>'btn btn-primary'
+                ]
+            ])
+            ->add('publier', SubmitType::class, [
+                'label' => 'Publier la sortie',
+                'attr'=>[
+                    'class'=>'btn btn-primary'
+                ]
+            ])
+            ->add('annuler', ResetType::class,[
+                'label'=>'Annuler',
+                'attr'=>[
+                    'class'=>'btn btn-primary'
+                ]
+            ])
+            ->add('delete', SubmitType::class,[
+                'label'=>'Supprimer la sortie',
+                'attr'=>[
+                    'class'=>'btn btn-primary'
+                ]
+            ])
             ->getForm()
         ;
     }

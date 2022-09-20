@@ -47,14 +47,22 @@ class MainController extends AbstractController
     /**
      * @Route("inscrire/{id}", name="_inscrire")
      */
-    public function inscrire(int $id, Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
+    public function inscrire(int $id, Request $request, ParticipantRepository $participantRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
         $inscrireSortie = $sortieRepository->find($id);
-        $inscrireSortie->addParticipant($this->getUser());
-
-        $entityManager->persist($inscrireSortie);
+        if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
+            $inscrireSortie->addParticipant($this->getUser());
+            $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
+            $inscrireSortie->setEtatSortie($etat);
+            $entityManager->persist($inscrireSortie);
+        } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
+            $inscrireSortie->addParticipant($this->getUser());
+            $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+            $inscrireSortie->setEtatSortie($etat);
+            $entityManager->persist($inscrireSortie);
+        }
+        // todo : sortie.organisateur != app.user and (sortie.dateLimiteInscription) < 'now'
         $entityManager->flush();
-
         return $this->redirectToRoute('app_home');
     }
 
