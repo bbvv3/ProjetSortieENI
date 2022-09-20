@@ -21,3 +21,7 @@ body,html
 #affichage p, #affichage span{
     padding: 6px 0 6px 0;
 }
+
+.info-user {
+    width: 345px;
+}

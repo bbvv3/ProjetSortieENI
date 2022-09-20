@@ -5,25 +5,25 @@
 {% endblock %}
 
 {% block body %}
-        <div>
-            <h3>Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
-            <h3>Participant : {{ app.user.getPseudo }} </h3>
+        <div class="d-flex align-items-end flex-column me-5">
+            <h3 class="info-user p-2">Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
+            <h3 class="info-user p-2">Participant : {{ app.user.getPseudo }} </h3>
         </div>
+    <div>
+    <h4 class="d-flex align-items-start flex-column ms-5">Filtrer les sorties</h4>
 
-    <h4>Filtrer les sorties</h4>
-
-      <div>
-        {{ form_start(mainForm) }}
+      <div class="d-flex justify-content-start col-12 ms-5">
+        {{ form_start(mainForm, {'attr':{'class':'col-12 d-flex justify-content-start pt-2'}}) }}
           {# {{ form_widget(mainForm) }} #}
-          <div>
+          <div class="d-flex justify-content-between flex-column py-2 px-2 col-3">
               {{ form_row(mainForm.campus) }}
               {{ form_row(mainForm.search) }}
-              <div>
+              <div class="d-flex justify-content-between">
                   {{ form_row(mainForm.dateDebut) }}
                   {{ form_row(mainForm.dateFin) }}
               </div>
           </div>
-          <div>
+          <div class="d-flex justify-content-between flex-column py-2 px-2 col-3 offset-1">
               <div>
                   {{ form_widget(mainForm.estOrganisateur) }}
                   {{ form_label(mainForm.estOrganisateur) }}
@@ -46,13 +46,15 @@
               </div>
           </div>
 
-          <div>
-            <button>Rechercher</button>
+          <div class="d-flex justify-content-between flex-column pb-5 px-2 col-3">
+            <button class="btn btn-secondary btn-lg col-8 h-100">Rechercher</button>
           </div>
         {{ form_end(mainForm) }}
       </div>
+    </div>
 
-    <table>
+    <div class="d-flex justify-content-center py-5 px-5 col-12">
+    <table class="col-12">
         <tr>
             <th>Nom de la sortie</th>
             <th>Date de la sortie</th>
@@ -102,7 +104,9 @@
             </tr>
         {% endfor %}
     </table>
+    </div>
 
-    <a href="{{ path('app_gestionSortie',{'id' : 0 }) }}" title="creerSortie"><button>Créer Sortie</button></a>
+    <a href="{{ path('app_gestionSortie',{'id' : 0 }) }}" title="creerSortie"><button class="btn btn-secondary btn-lg ms-5">Créer Sortie</button></a>
+
 
 {% endblock %}

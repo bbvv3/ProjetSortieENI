@@ -22,20 +22,33 @@ class MainType extends AbstractType
                 'class'=>Campus::class,
                 'label' => 'Campus',
                 'choice_label'  => 'nom',
+                'label_attr' => [
+                    'class' => 'col-7'
+                ],
+                'attr' => [
+                    'class' => 'col-5'
+                ]
             ])
             ->add('search', SearchType::class, [
                 'label' => 'Le nom de la sortie contient : ',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'search'
+                    'placeholder' => 'search',
+                    'class' => 'col-5 rounded-pill px-2'
+                ],
+                'label_attr' => [
+                    'class' => 'col-7'
                 ]
             ])
             ->add('dateDebut',DateType::class, [
                 'label' => "Entre",
                 'required' => false,
-                'widget'=>'single_text',
-                'attr'=>[
-                    'min'=>(new \DateTime())->format('c')
+                'widget' =>'single_text',
+                'attr' =>[
+                    'min' =>(new \DateTime())->format('c'),
+                ],
+                'label_attr' => [
+                    'class' => 'pe-4'
                 ]
             ])
             ->add('dateFin',DateType::class,[
@@ -44,6 +57,9 @@ class MainType extends AbstractType
                 'widget'=>'single_text',
                 'attr'=>[
                     'min'=>(new \DateTime())->format('c')
+                ],
+                'label_attr' => [
+                    'class' => 'pe-4'
                 ]
             ])
             ->add('estOrganisateur', CheckboxType::class, [
