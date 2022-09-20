@@ -64,17 +64,27 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function findSortieHome(Filtres $filtres){
-        $queryBuilder = $this->createQueryBuilder('s')
+        $queryBuilder = $this->createQueryBuilder('s');
+        $expr = $queryBuilder->expr();
+        $queryBuilder
             //organisateur->leftJoin()
             //campus->leftJoin()
             //participants->leftJoin()
-            //->leftJoin('s.etatSortie', 'etat')
-            //->addSelect('etat')
-            ->where('s.siteOrganisateur = :campus')
+            ->leftJoin('s.etatSortie', 'etat')
+            ->addSelect('etat')
+            ->where($expr->neq('etat.libelle','\'Historisée\''))
+            ->andWhere('s.siteOrganisateur = :campus')
             ->setParameter('campus', $filtres->getCampus())
-            //->addWhere('s.etatSortie :etat')
-            //->setParameter('etat', $etat)
-
+            ->andWhere(
+                $expr->orX(
+                    $expr->andX(
+                        $expr->eq('etat.libelle','\'En création\''),
+                        $expr->eq('s.organisateur', ':user')
+                    ),
+                    $expr->neq('etat.libelle','\'En création\'')
+                )
+            )
+            ->setParameter('user', $filtres->getUtilisateurActuel())
             ;
 
         return $queryBuilder->getQuery()->getResult();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Entity\Campus;
+use App\Entity\Participant;
 use App\Repository\SortieRepository;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints\Date;
@@ -30,27 +31,49 @@ class Filtres
     private $dateFin;
 
     /**
-     * @var null|Boolean
+     * @var Boolean
      */
     private $estOrganisateur;
 
     /**
-     * @var null|Boolean
+     * @var Boolean
      */
     private $estInscrit;
 
     /**
-     * @var null|Boolean
+     * @var Boolean
      */
     private $pasInscrit;
 
     /**
-     * @var null|Boolean
+     * @var Boolean
      */
     private $estPasse;
 
     /**
-     * @return Boolean|null
+     * @var Participant
+     */
+    private $utilisateurActuel;
+
+    /**
+     * @return Participant
+     */
+    public function getUtilisateurActuel(): Participant
+    {
+        return $this->utilisateurActuel;
+    }
+
+    /**
+     * @param Participant $utilisateurActuel
+     */
+    public function setUtilisateurActuel(Participant $utilisateurActuel): void
+    {
+        $this->utilisateurActuel = $utilisateurActuel;
+    }
+
+
+    /**
+     * @return Boolean
      */
     public function getEstOrganisateur(): ?Boolean
     {
@@ -58,14 +81,12 @@ class Filtres
     }
 
     /**
-     * @param Boolean|null $estOrganisateur
+     * @param Boolean $estOrganisateur
      */
     public function setEstOrganisateur(?Boolean $estOrganisateur): void
     {
         $this->estOrganisateur = $estOrganisateur;
     }
-
-
 
     /**
      * @return Campus
@@ -76,7 +97,7 @@ class Filtres
     }
 
     /**
-     * @return Boolean|null
+     * @return Boolean
      */
     public function getEstInscrit(): ?Boolean
     {
@@ -84,7 +105,7 @@ class Filtres
     }
 
     /**
-     * @param Boolean|null $estInscrit
+     * @param Boolean $estInscrit
      */
     public function setEstInscrit(?Boolean $estInscrit): void
     {
@@ -92,7 +113,7 @@ class Filtres
     }
 
     /**
-     * @return Boolean|null
+     * @return Boolean
      */
     public function getPasInscrit(): ?Boolean
     {
@@ -100,7 +121,7 @@ class Filtres
     }
 
     /**
-     * @param Boolean|null $pasInscrit
+     * @param Boolean $pasInscrit
      */
     public function setPasInscrit(?Boolean $pasInscrit): void
     {
@@ -108,7 +129,7 @@ class Filtres
     }
 
     /**
-     * @return Boolean|null
+     * @return Boolean
      */
     public function getEstPasse(): ?Boolean
     {
@@ -116,7 +137,7 @@ class Filtres
     }
 
     /**
-     * @param Boolean|null $estPasse
+     * @param Boolean $estPasse
      */
     public function setEstPasse(?Boolean $estPasse): void
     {
@@ -178,21 +199,4 @@ class Filtres
     {
         $this->dateFin = $dateFin;
     }
-
-    /**
-     * @return string[]
-     */
-    public function getCheckbox(): array
-    {
-        return $this->checkbox;
-    }
-
-    /**
-     * @param string[] $checkbox
-     */
-    public function setCheckbox(array $checkbox): void
-    {
-        $this->checkbox = $checkbox;
-    }
-
 }

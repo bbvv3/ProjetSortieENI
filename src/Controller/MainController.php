@@ -25,15 +25,23 @@ class MainController extends AbstractController
      */
     public function home(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
     {
-        //création et récupération des filtres
-        $mainForm = $this->createForm(MainType::class);
+        //création des filtres
+        $filtresRempli = new Filtres();
+        $mainForm = $this->createForm(MainType::class /*, $filtresRempli*/);
         $mainForm->handleRequest($request);
-        //if($mainForm->isSubmitted() && $mainForm->isValid()){ }
 
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();
         $filtres = new Filtres();
         $filtres->setCampus($campus);
+
+        //application des filtres
+        //if($mainForm->isSubmitted() && $mainForm->isValid()){
+        //    $filtres = $filtresRempli;
+        //}
+        //ajout de l'utilisateur actuel
+        $filtres->setUtilisateurActuel($this->getUser());
+
         //recupération du tableau de sorties
         $sorties = $sortieRepository->findSortieHome($filtres);
 
@@ -60,7 +68,7 @@ class MainController extends AbstractController
             $inscrireSortie->setEtatSortie($etat);
 
         } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
-            $inscrireSortie->addParticipant()($this->getUser());
+            $inscrireSortie->addParticipant(($this->getUser()));
             $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
             $inscrireSortie->setEtatSortie($etat);
 

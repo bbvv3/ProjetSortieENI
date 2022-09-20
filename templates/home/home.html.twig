@@ -66,11 +66,11 @@
         {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
-                <td>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
-                <td>{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax}}</td>
-                <td>{{ sortie.etatSortie.libelle }}</td>
-                <td>{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
+                <td class="text-center">{{ sortie.dateHeureDebut | date("d/m/Y H:m") }}</td>
+                <td class="text-center">{{ sortie.dateLimiteInscription | date("d/m/Y") }}</td>
+                <td class="text-center">{{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax}}</td>
+                <td class="text-center">{{ sortie.etatSortie.libelle }}</td>
+                <td class="text-center">{% for participant in sortie.participants %}{% if participant == app.user %} X {% endif %} {% endfor %}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{% if sortie.etatSortie.libelle == "En création" %}
                         <a href=" {{ path('app_gestionSortie',{'id' : sortie.id }) }} " title="modifier">Modifier</a>
