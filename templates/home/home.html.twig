@@ -9,11 +9,11 @@
             <h3 class="info-user p-2">Date du jour : {{ 'now' | date('d/m/Y') }}</h3>
             <h3 class="info-user p-2">Participant : {{ app.user.getPseudo }} </h3>
         </div>
-    <div>
+    <div class="col-12">
     <h4 class="d-flex align-items-start flex-column ms-5">Filtrer les sorties</h4>
 
-      <div class="d-flex justify-content-start col-12 ms-5">
-        {{ form_start(mainForm, {'attr':{'class':'col-12 d-flex justify-content-start pt-2'}}) }}
+      <div class="d-flex justify-content-start col-12 ps-5">
+        {{ form_start(mainForm, {'attr':{'class':'col-12 d-flex flex-wrap justify-content-start pt-2'}}) }}
           {# {{ form_widget(mainForm) }} #}
           <div class="d-flex justify-content-between flex-column py-2 px-2 col-3">
               {{ form_row(mainForm.campus) }}
@@ -54,7 +54,7 @@
     </div>
 
     <div class="d-flex justify-content-center py-5 px-5 col-12">
-    <table class="col-12">
+    <table class="col-12 overflow-auto">
         <tr>
             <th>Nom de la sortie</th>
             <th>Date de la sortie</th>
@@ -106,7 +106,7 @@
     </table>
     </div>
 
-    <a href="{{ path('app_gestionSortie',{'id' : 0 }) }}" title="creerSortie"><button class="btn btn-secondary btn-lg ms-5">Créer Sortie</button></a>
+    <a href="{{ path('app_gestionSortie',{'id' : 0 }) }}" title="creerSortie"><button class="btn btn-primary btn-lg col-2 py-3 ms-5">Créer Sortie</button></a>
 
 
 {% endblock %}
