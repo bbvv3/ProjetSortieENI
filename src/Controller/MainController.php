@@ -66,7 +66,24 @@ class MainController extends AbstractController
         $seDesisterSortie = $sortieRepository->find($id);
         $seDesisterSortie->removeParticipant($this->getUser());
 
-        $entityManager->remove($seDesisterSortie);
+        $entityManager->persist($seDesisterSortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute( 'app_home');
+    }
+
+    /**
+     * @Route("/publier/{id}", name="_publier")
+     */
+    public function publier(int $id, Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    {
+        $publierSortie = $sortieRepository->find($id);
+        $publierSortie->removeParticipant($this->getEtatSortie());
+
+        $publierSortie->setEtatSortie($etat);
+        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+
+        $entityManager->persist($publierSortie);
         $entityManager->flush();
 
         return $this->redirectToRoute( 'app_home');
