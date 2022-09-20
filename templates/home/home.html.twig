@@ -55,19 +55,16 @@
 
     <div class="d-flex justify-content-center py-5 px-5 col-12">
     <table class="col-12">
-        <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/Places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="tabDefil" class="overflow-auto">
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
         {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
@@ -106,7 +103,6 @@
                 </td>
             </tr>
         {% endfor %}
-        </tbody>
     </table>
     </div>
 
