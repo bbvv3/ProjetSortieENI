@@ -50,18 +50,21 @@ class MainController extends AbstractController
     public function inscrire(int $id, Request $request, ParticipantRepository $participantRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
         $inscrireSortie = $sortieRepository->find($id);
+
         if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
             $inscrireSortie->addParticipant($this->getUser());
             $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
             $inscrireSortie->setEtatSortie($etat);
             $entityManager->persist($inscrireSortie);
+
         } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
             $inscrireSortie->addParticipant($this->getUser());
             $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
             $inscrireSortie->setEtatSortie($etat);
             $entityManager->persist($inscrireSortie);
         }
-        // todo : sortie.organisateur != app.user and (sortie.dateLimiteInscription) < 'now'
+         // todo : sortie.organisateur != app.user and (sortie.dateLimiteInscription) < 'now'
+
         $entityManager->flush();
         return $this->redirectToRoute('app_home');
     }
@@ -83,13 +86,12 @@ class MainController extends AbstractController
     /**
      * @Route("/publier/{id}", name="_publier")
      */
-    public function publier(int $id, Request $request, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    public function publier(int $id, Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager):Response
     {
         $publierSortie = $sortieRepository->find($id);
-        $publierSortie->removeParticipant($this->getEtatSortie());
+        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
 
         $publierSortie->setEtatSortie($etat);
-        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
 
         $entityManager->persist($publierSortie);
         $entityManager->flush();
