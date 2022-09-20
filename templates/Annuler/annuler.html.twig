@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annuler une sortie
+{% endblock %}
+
+{% block body %}
+<div id="affichage" class="d-flex justify-content-center flex-wrap">
+    <h2 class="col-10 text-center pt-2 pb-5">Annuler une sortie</h2>
+    <form method="post" class="d-flex col-4 flex-wrap">
+        <p class="col-6">Nom de la sortie :</p><span class="col-6">{{ sortie.nom }}</span>
+        <p class="col-6">Date de la sortie :</p><span class="col-6">{{ sortie.dateHeureDebut|date("d/m/Y") }}</span>
+        <p class="col-6">Campus :</p><span class="col-6">{{ sortie.siteOrganisateur }}</span>
+        <p class="col-6">Lieu :</p><span class="col-6">{{ sortie.lieuSortie }}</span>
+        <label for="motif" class="col-6">Motif :</label><textarea id="motif" name="motif" rows="4" cols="25"></textarea>
+        <div class="col-12 d-flex justify-content-around mt-4">
+            <input class="btn btn-primary" type="submit" value="Enregistrer">
+            <input class="btn btn-primary" type="reset" value="Annuler">
+        </div>
+    </form>
+</div>
+{% endblock %}
