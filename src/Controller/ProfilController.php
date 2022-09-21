@@ -28,4 +28,17 @@ class ProfilController extends AbstractController
             'monProfilForm' => $monProfilForm->createView(),
         ]);
     }
+
+    /**
+     * @Route("/organisateur/{id}", name="app_afficherOrganisateur")
+     */
+    public function afficherOrganisateur(int $id, ParticipantRepository $participantRepository): Response
+    {
+        $participant = $participantRepository->find($id);
+        return $this->render('profil/afficherOrganisateur.html.twig', [
+            'participant' => $participant
+        ]);
+    }
+
+
 }
