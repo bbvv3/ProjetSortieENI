@@ -85,7 +85,7 @@ class MonProfilType extends AbstractType
                 ],
             ])
             ->add('motPasse',RepeatedType::class,[
-
+                'type' => PasswordType::class,
                 'mapped'=>false,
                 'first_options'  => ['label' => 'Mot de Passe :',
                     //ici on défini la taille du label
