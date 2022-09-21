@@ -83,23 +83,16 @@ class SortieController extends AbstractController
     public function annuler(int $id, Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager) : Response
     {
         $annulerSortie=$sortieRepository->findModifSortie($id);
-
-        //$annulerForm->handleRequest($request);
-
-        $request->request->get('motif');
-
-        //if ($annulerForm->isSubmitted() && $annulerForm->isValid()) {
-        //    $annulerForm->getClickedButton() === $annulerForm->get('enregistrer');
-        //    $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
-        //    $annulerSortie->setEtatSortie($etat);
-        //    $entityManager->persist($annulerSortie)->flush();
-        //} else {
-        //    $annulerForm->getClickedButton() === $annulerForm->get('delete');
-        //    $entityManager->remove($annulerSortie);
-        //}
+        if ($request->getMethod() == "POST") {
+            $annulerSortie->setInfosSortie($request->request->get('motif'));
+            $etat = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+            $annulerSortie->setEtatSortie($etat);
+            $entityManager->persist($annulerSortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_home');
+        }
         return $this -> render( 'annuler/annuler.html.twig', [
             'sortie' => $annulerSortie,
-        //    'annulerForm' => $annulerForm->createView(),
         ]);
     }
 
