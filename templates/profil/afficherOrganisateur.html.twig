@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ participant.getPseudo }}
+{% endblock %}
+
+{% block body %}
+    <div id="profilPage" class="d-flex justify-content-center flex-wrap">
+        <h2 class="col-10 text-center pt-2 pb-5">{{ participant.getPseudo }}</h2>
+        <form method="post" class="d-flex col-4 flex-wrap">
+            <p class="col-6">Prénom :</p><span class="col-6">{{ participant.getPrenom }}</span>
+            <p class="col-6">Nom :</p><span class="col-6">{{ participant.getNom }}</span>
+            <p class="col-6">Téléphone :</p><span class="col-6">{{ participant.getTelephone }}</span>
+            <p class="col-6">Email :</p><span class="col-6">{{ participant.getMail }}</span>
+            <p class="col-6">Campus :</p><span class="col-6">{{ participant.getCampus }}</span>
+            <div class="col-12 d-flex justify-content-around mt-4">
+                <a href="{{ path('app_home') }}" class="btn btn-primary btn-lg">Retour</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
