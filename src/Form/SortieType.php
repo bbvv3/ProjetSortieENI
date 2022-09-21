@@ -63,7 +63,7 @@ class SortieType extends AbstractType
 
             ])
             ->add('duree',IntegerType::class,[
-                'label'=>'Durée :',
+                'label'=> 'Durée :',
                 //ici on défini la taille du label
                 'label_attr'=>[
                     'class'=> 'col-6 py-2'

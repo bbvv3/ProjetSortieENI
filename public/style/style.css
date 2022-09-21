@@ -26,3 +26,24 @@ body,html
     width: 345px;
 }
 
+.flash {
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
+
+.flash-success {
+    background: rgb(62,148,92);
+    background: linear-gradient(0deg, rgba(62,148,92,0.09567577030812324) 3%, rgba(116,181,80,0.8155637254901961) 73%);
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.flash-error {
+    background: rgb(226,25,25);
+    background: linear-gradient(0deg, rgba(226,25,25,1) 0%, rgba(255,0,0,0.500437675070028) 100%);
+    margin-left: 150px;
+    margin-right: 150px;
+}
