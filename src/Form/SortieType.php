@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use function Sodium\add;
 
 class SortieType extends AbstractType
 {
@@ -119,25 +118,25 @@ class SortieType extends AbstractType
             ->add('enregistrer', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr'=>[
-                    'class'=>'btn btn-primary'
+                    'class'=>'btn btn-primary btn-lg'
                 ]
             ])
             ->add('publier', SubmitType::class, [
                 'label' => 'Publier la sortie',
                 'attr'=>[
-                    'class'=>'btn btn-primary'
+                    'class'=>'btn btn-primary btn-lg'
                 ]
             ])
             ->add('annuler', ResetType::class,[
                 'label'=>'Annuler',
                 'attr'=>[
-                    'class'=>'btn btn-primary'
+                    'class'=>'btn btn-danger btn-lg'
                 ]
             ])
             ->add('delete', SubmitType::class,[
                 'label'=>'Supprimer la sortie',
                 'attr'=>[
-                    'class'=>'btn btn-primary'
+                    'class'=>'btn btn-danger btn-lg'
                 ]
             ])
             ->getForm()
