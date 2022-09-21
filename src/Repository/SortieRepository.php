@@ -97,8 +97,8 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder->setParameter('user', $filtres->getUtilisateurActuel());
 
         //sorties passées
-        if(!$filtres->getEstPasse()){
-            $queryBuilder->andWhere($expr->neq('etat.libelle','\'Terminée\''));
+        if($filtres->getEstPasse()){
+            $queryBuilder->andWhere('etat.libelle = \'Terminée\'');
         }
         //est inscrit
         if($filtres->getEstInscrit()){
