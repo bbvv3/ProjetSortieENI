@@ -95,5 +95,4 @@ class SortieController extends AbstractController
             'sortie' => $annulerSortie,
         ]);
     }
-
 }

@@ -86,16 +86,20 @@ class SortieRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('s.nom LIKE :motCle')
                 ->setParameter('motCle','%'.$filtres->getSearch().'%');
         }
-
         //date debut
+        if($filtres->getDateDebut()){
+            $queryBuilder->andWhere('s.dateHeureDebut <= :dateDebut')
+                ->setParameter('dateDebut', $filtres->getDateDebut());
+        }
         //date fin
-
+        if($filtres->getDateFin()){
+            $queryBuilder->andWhere('s.dateHeureDebut >= :dateDebut')
+                ->setParameter('dateDebut', $filtres->getDateFin());
+        }
         //organisateur
         if($filtres->getEstOrganisateur()){
             $queryBuilder->andWhere('s.organisateur = :user');
         }
-        $queryBuilder->setParameter('user', $filtres->getUtilisateurActuel());
-
         //sorties passées
         if($filtres->getEstPasse()){
             $queryBuilder->andWhere('etat.libelle = \'Terminée\'');
@@ -107,7 +111,55 @@ class SortieRepository extends ServiceEntityRepository
         if ($filtres->getPasInscrit()){
             $queryBuilder->andWhere(':user NOT MEMBER OF s.participants');
         }
+        $queryBuilder->setParameter('user', $filtres->getUtilisateurActuel());
+        return $queryBuilder->getQuery()->getResult();
+    }
 
+    public function findOuvertToCloture(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $now = new \DateTime();
+        $queryBuilder
+            ->leftJoin('s.etatSortie', 'etat')
+            ->addSelect('etat')
+            ->where('etat.libelle = \'Ouvert\'')
+            ->andWhere('s.dateLimiteInscription < :now')
+            ->setParameter('nom', $now);
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findClotureToEnCours(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $now = new \DateTime();
+        $queryBuilder
+            ->leftJoin('s.etatSortie', 'etat')
+            ->addSelect('etat')
+            ->where('etat.libelle = \'Cloturée\'')
+            ->andWhere('s.dateHeureDebut < :now')
+            ->setParameter('nom', $now);
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findEnCoursToTermine(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $now = new \DateTime();
+        $queryBuilder
+            ->leftJoin('s.etatSortie', 'etat')
+            ->addSelect('etat')
+            ->where('etat.libelle = \'En cours\'')
+            ->andWhere('s.dateHeureDebut + s.duree > :now')
+            ->setParameter('nom', $now);
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findTermineAndAnnulerToHistorise(){
+        $queryBuilder = $this->createQueryBuilder('s');
+        $now = new \DateTime();
+        $queryBuilder
+            ->leftJoin('s.etatSortie', 'etat')
+            ->addSelect('etat')
+            ->where('etat.libelle = \'En cours\' or etat.libelle = \'Annulée\'')
+            ->andWhere('s.dateHeureDebut + \'1 month\' < :now')
+            ->setParameter('nom', $now);
         return $queryBuilder->getQuery()->getResult();
     }
 }
