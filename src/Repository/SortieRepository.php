@@ -73,14 +73,14 @@ class SortieRepository extends ServiceEntityRepository
             ->andWhere('s.siteOrganisateur = :campus')
             ->setParameter('campus', $filtres->getCampus())
             ->andWhere(
-            $expr->orX(
-                $expr->andX(
-                    $expr->eq('etat.libelle','\'En création\''),
-                    $expr->eq('s.organisateur', ':user')
-                ),
-                $expr->neq('etat.libelle','\'En création\'')
-            )
-        );
+                $expr->orX(
+                    $expr->andX(
+                        $expr->eq('etat.libelle','\'En création\''),
+                        $expr->eq('s.organisateur', ':user')
+                    ),
+                    $expr->neq('etat.libelle','\'En création\'')
+                )
+            );
         //motcle
         if($filtres->getSearch()){
             $queryBuilder->andWhere('s.nom LIKE :motCle')
