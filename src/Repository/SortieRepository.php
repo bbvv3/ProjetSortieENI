@@ -110,30 +110,4 @@ class SortieRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
-
-
-    //public function rechercher(FormInterface $form)
-    //{
-
-    //    $queryBuilder = $this->createQueryBuilder('r');
-
-    //    if($form->getCampus()) {
-    //        $queryBuilder
-    //            ->where("r.campus = :campus")
-    //            ->setParameter("campus", $form->getCampus())
-    //       ;
-    //    }
-
-        //$queryBuilder->andWhere('r.dateDebut')
-        //$queryBuilder->andWhere('r.dateFin');
-        //$queryBuilder->andWhere('r.sortiesOrga');
-        //$queryBuilder->andWhere('r.sortiesInscrit');
-        //$queryBuilder->andWhere('r.sortiesNonInscrit');
-        //$queryBuilder->andWhere('r.sortiesPassee');
-
-    //    $query = $queryBuilder->getQuery();
-    //    $results = $query->getResult();
-    //    return $results;
-    //}
-    
 }

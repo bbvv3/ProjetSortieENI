@@ -32,12 +32,15 @@ class SortieController extends AbstractController
         }else{
             $creerSortie=new Sortie();
             $creerSortie->setOrganisateur($this->getUser());
+            $creerSortie->setSiteOrganisateur($this->getUser()->getCampus());
         }
         $sortieForm = $this->createForm(SortieType::class, $creerSortie);
         if ($id==0)
         {
             $sortieForm->remove('delete');
+            $sortieForm->remove('siteOrganisateur');
         }
+
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {
