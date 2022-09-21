@@ -38,7 +38,7 @@
             {% if id != 0 %}
                 {{ form_row(sortieForm.delete) }}
             {% endif %}
-            {{ form_row(sortieForm.annuler) }}
+            <a href="{{ path('app_home') }}" class="btn btn-pirmary btn-lg"></a>
         </div>
     {{ form_end(sortieForm) }}
 {% endblock %}

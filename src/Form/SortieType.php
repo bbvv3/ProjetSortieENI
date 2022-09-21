@@ -132,12 +132,6 @@ class SortieType extends AbstractType
                     'class'=>'btn btn-primary btn-lg'
                 ]
             ])
-            ->add('annuler', ResetType::class,[
-                'label'=>'Annuler',
-                'attr'=>[
-                    'class'=>'btn btn-primary btn-lg'
-                ]
-            ])
             ->add('delete', SubmitType::class,[
                 'label'=>'Supprimer la sortie',
                 'attr'=>[
