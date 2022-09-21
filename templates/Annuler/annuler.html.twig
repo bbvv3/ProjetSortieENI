@@ -13,9 +13,9 @@
         <p class="col-6">Campus :</p><span class="col-6">{{ sortie.siteOrganisateur }}</span>
         <p class="col-6">Lieu :</p><span class="col-6">{{ sortie.lieuSortie }}</span>
         <label for="motif" class="col-6">Motif :</label><textarea id="motif" name="motif" rows="4" cols="25"></textarea>
-        <div class="col-12 d-flex justify-content-around mt-4">
-            <input class="btn btn-primary" type="submit" value="Enregistrer">
-            <input class="btn btn-primary" type="reset" value="Annuler">
+        <div class="col-12 d-flex justify-content-evenly mt-4">
+            <input class="btn btn-primary btn-lg" type="submit" value="Enregistrer">
+            <a href="{{ path('app_home') }}" class="btn btn-danger btn-lg">Annuler</a>
         </div>
     </form>
 </div>

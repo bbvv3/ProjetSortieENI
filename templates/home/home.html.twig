@@ -97,7 +97,7 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if sortie.etatSortie.libelle == "Ouverte" and sortie.organisateur == app.user %}
+                    {% if (sortie.etatSortie.libelle == "Ouverte" or sortie.etatSortie.libelle == "Clôturée") and sortie.organisateur == app.user %}
                         - <a href="{{ path('app_annuler',{'id' : sortie.id }) }}" title="annuler">Annuler</a>
                     {% endif %}
                 </td>
