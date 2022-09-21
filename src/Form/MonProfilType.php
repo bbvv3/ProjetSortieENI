@@ -8,6 +8,7 @@ use App\Entity\Participant;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\PseudoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Factory\Cache\ChoiceLabel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
@@ -28,107 +30,149 @@ class MonProfilType extends AbstractType
         $builder
 
             ->add('pseudo',TextType::class,[
-                'label'=>'Pseudo :',
-                    //ici on défini la taille du label
-                    'label_attr'=>[
-                      'class'=> 'col-5 py-2'
+                'label' => 'Pseudo :',
+                    // Ici on définit la taille du label
+                    'label_attr' => [
+                      'class' => 'col-5 py-2'
                     ],
-                    // en dessou on definit la taille du champ
-                    'attr'=>[
-                        'class'=>'col-7',
+                    // En dessous on définit la taille du champ
+                    'attr' => [
+                        'class' => 'col-7',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner un pseudo!'
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le pseudo doit contenir {{ limit }} caractères minimum!',
+                        'max' => 50,
+                        'maxMessage' => 'Le pseudo doit contenir {{ limit }} caractères maximum!',
+                    ]),
                 ],
 
             ])
             ->add('prenom',TextType::class,[
-                'label'=>'Prénom :',
-                //ici on défini la taille du label
-                'label_attr'=>[
-                    'class'=> 'col-5 py-2'
+                'label' => 'Prénom :',
+                // Ici on définit la taille du label
+                'label_attr' => [
+                    'class' => 'col-5 py-2'
                 ],
-                // en dessou on definit la taille du champ
-                'attr'=>[
+                // En dessous on définit la taille du champ
+                'attr' => [
                     'class'=>'col-7',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner un prénom!'
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le prénom doit contenir {{ limit }} caractères minimum!',
+                        'max' => 80,
+                        'maxMessage' => 'Le prénom doit contenir {{ limit }} caractères maximum!',
+                    ]),
                 ],
             ])
             ->add('nom',TextType::class,[
                 'label'=>'Nom :',
-                //ici on défini la taille du label
-                'label_attr'=>[
-                    'class'=> 'col-5 py-2'
+                // Ici on définit la taille du label
+                'label_attr' => [
+                    'class' => 'col-5 py-2'
                 ],
-                // en dessou on definit la taille du champ
-                'attr'=>[
+                // En dessous on définit la taille du champ
+                'attr' => [
                     'class'=>'col-7',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner un nom!'
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le nom doit contenir {{ limit }} caractères minimum!',
+                        'max' => 80,
+                        'maxMessage' => 'Le nom doit contenir {{ limit }} caractères maximum!',
+                    ]),
                 ],
             ])
             ->add('telephone',TextType::class,[
-                'label'=>'Téléphone :',
-                'required'=>false,
-                //ici on défini la taille du label
-                'label_attr'=>[
-                    'class'=> 'col-5 py-2'
+                'label' => 'Téléphone :',
+                'required' => false,
+                // Ici on définit la taille du label
+                'label_attr' => [
+                    'class' => 'col-5 py-2'
                 ],
-                // en dessou on definit la taille du champ
-                'attr'=>[
-                    'class'=>'col-7',
+                // En dessous on définit la taille du champ
+                'attr' => [
+                    'class' => 'col-7',
                 ],
             ])
             ->add('mail',TextType::class,[
-                'label'=>'Mail :',
-                //ici on défini la taille du label
-                'label_attr'=>[
-                    'class'=> 'col-5 py-2'
+                'label' => 'Mail :',
+                // Ici on définit la taille du label
+                'label_attr' => [
+                    'class' => 'col-5 py-2'
                 ],
-                // en dessou on definit la taille du champ
-                'attr'=>[
-                    'class'=>'col-7',
+                // En dessous on définit la taille du champ
+                'attr' => [
+                    'class' => 'col-7',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner un email!'
+                    ]),
+                    new Length([
+                        'max' => 180,
+                        'maxMessage' => 'Le mail doit contenir {{ limit }} caractères maximum!',
+                    ]),
                 ],
             ])
             ->add('motPasse',RepeatedType::class,[
                 'type' => PasswordType::class,
-                'mapped'=>false,
+                'mapped' => false,
                 'first_options'  => ['label' => 'Mot de Passe :',
-                    //ici on défini la taille du label
-                    'label_attr'=>[
+                    // Ici on définit la taille du label
+                    'label_attr' => [
                         'class'=> 'col-5 py-2'
                     ],
-                    // en dessou on definit la taille du champ
-                    'attr'=>[
+                    // En dessous on définit la taille du champ
+                    'attr' => [
                         'class'=>'col-7',
-                        'pattern'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
-                        'type'=>'password'
+                        'pattern' => '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+                        'type' => 'password'
                     ]
                     ],
                 'second_options' => ['label' => 'Confirmation :',
-                    //ici on défini la taille du label
-                    'label_attr'=>[
-                        'class'=> 'col-5 py-2'
+                    // Ici on définit la taille du label
+                    'label_attr' => [
+                        'class' => 'col-5 py-2'
                     ],
-                    // en dessou on definit la taille du champ
-                    'attr'=>[
-                        'class'=>'col-7',
-                        'pattern'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
-                        'type'=>'password'
+                    // En dessous on définit la taille du champ
+                    'attr' => [
+                        'class' => 'col-7',
+                        'pattern' => '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$',
+                        'type' => 'password'
                     ]
                 ],
-                'constraints'=>[
+                'constraints' => [
                     new NotBlank([
-                        'message'=>'ce champ doit être remplit',
+                        'message' => 'Ce champ doit être rempli',
                     ])
                  ]
             ])
             ->add('campus',EntityType::class,[
-                    'label'=>'Campus',
-                //ici on défini la taille du label
-                'label_attr'=>[
-                    'class'=> 'col-5 py-2'
+                    'label' => 'Campus',
+                // Ici on définit la taille du label
+                'label_attr' => [
+                    'class' => 'col-5 py-2'
                 ],
-                // en dessou on definit la taille du champ
-                'attr'=>[
-                    'class'=>'col-7',
+                // En dessous on définit la taille du champ
+                'attr' => [
+                    'class' => 'col-7',
                 ],
-                    'class'=>Campus::class,
-                    'choice_label'=>'nom',
+                    'class' => Campus::class,
+                    'choice_label' => 'nom',
                     'disabled' => true,
 
              ])

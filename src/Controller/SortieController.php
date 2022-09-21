@@ -47,13 +47,16 @@ class SortieController extends AbstractController
                 $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
                 $creerSortie->setEtatSortie($etat);
                 $entityManager->persist($creerSortie);
+                $this->addFlash('success', 'Sortie publiée avec succès!');
             } else if ($sortieForm->getClickedButton() === $sortieForm->get('enregistrer')) {
                 $etat = $etatRepository->findOneBy(['libelle' => 'En création']);
                 $creerSortie->setEtatSortie($etat);
                 $entityManager->persist($creerSortie);
+                $this->addFlash('success', 'Sortie enregistrée avec succès!');
             } else {
                 $sortieForm->getClickedButton() === $sortieForm->get('delete');
                 $entityManager->remove($creerSortie);
+                $this->addFlash('success', 'Sortie supprimée avec succès!');
             }
             $entityManager->flush();
             return $this->redirectToRoute('app_home');
@@ -83,14 +86,18 @@ class SortieController extends AbstractController
     public function annuler(int $id, Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager) : Response
     {
         $annulerSortie=$sortieRepository->findModifSortie($id);
-        if ($request->getMethod() == "POST") {
+        if (($request->getMethod() == "POST") and (empty($request->request->get('motif')))) {
+            $this->addFlash('error', 'ECHEC de l\'annulation!!!');
+        } else if ($request->getMethod() == "POST") {
             $annulerSortie->setInfosSortie($request->request->get('motif'));
             $etat = $etatRepository->findOneBy(['libelle' => 'Annulée']);
             $annulerSortie->setEtatSortie($etat);
             $entityManager->persist($annulerSortie);
             $entityManager->flush();
+            $this->addFlash('success', 'Sortie annulée avec succès!');
             return $this->redirectToRoute('app_home');
         }
+
         return $this -> render( 'annuler/annuler.html.twig', [
             'sortie' => $annulerSortie,
         ]);
