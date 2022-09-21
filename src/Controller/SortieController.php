@@ -86,7 +86,7 @@ class SortieController extends AbstractController
 
         //$annulerForm->handleRequest($request);
 
-        //$request->request->get('motif');
+        $request->request->get('motif');
 
         //if ($annulerForm->isSubmitted() && $annulerForm->isValid()) {
         //    $annulerForm->getClickedButton() === $annulerForm->get('enregistrer');
