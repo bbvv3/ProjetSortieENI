@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
-use App\Repository\SortieRepository;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints\Date;
 
 class Filtres
@@ -31,22 +29,22 @@ class Filtres
     private $dateFin;
 
     /**
-     * @var Boolean
+     * @var bool
      */
     private $estOrganisateur;
 
     /**
-     * @var Boolean
+     * @var bool
      */
     private $estInscrit;
 
     /**
-     * @var Boolean
+     * @var bool
      */
     private $pasInscrit;
 
     /**
-     * @var Boolean
+     * @var bool
      */
     private $estPasse;
 
@@ -73,17 +71,17 @@ class Filtres
 
 
     /**
-     * @return Boolean
+     * @return bool
      */
-    public function getEstOrganisateur(): ?Boolean
+    public function getEstOrganisateur(): ?bool
     {
         return $this->estOrganisateur;
     }
 
     /**
-     * @param Boolean $estOrganisateur
+     * @param bool $estOrganisateur
      */
-    public function setEstOrganisateur(?Boolean $estOrganisateur): void
+    public function setEstOrganisateur(?bool $estOrganisateur): void
     {
         $this->estOrganisateur = $estOrganisateur;
     }
@@ -97,49 +95,49 @@ class Filtres
     }
 
     /**
-     * @return Boolean
+     * @return bool
      */
-    public function getEstInscrit(): ?Boolean
+    public function getEstInscrit(): ?bool
     {
         return $this->estInscrit;
     }
 
     /**
-     * @param Boolean $estInscrit
+     * @param bool $estInscrit
      */
-    public function setEstInscrit(?Boolean $estInscrit): void
+    public function setEstInscrit(?bool $estInscrit): void
     {
         $this->estInscrit = $estInscrit;
     }
 
     /**
-     * @return Boolean
+     * @return bool
      */
-    public function getPasInscrit(): ?Boolean
+    public function getPasInscrit(): ?bool
     {
         return $this->pasInscrit;
     }
 
     /**
-     * @param Boolean $pasInscrit
+     * @param bool $pasInscrit
      */
-    public function setPasInscrit(?Boolean $pasInscrit): void
+    public function setPasInscrit(?bool $pasInscrit): void
     {
         $this->pasInscrit = $pasInscrit;
     }
 
     /**
-     * @return Boolean
+     * @return bool
      */
-    public function getEstPasse(): ?Boolean
+    public function getEstPasse(): ?bool
     {
         return $this->estPasse;
     }
 
     /**
-     * @param Boolean $estPasse
+     * @param bool $estPasse
      */
-    public function setEstPasse(?Boolean $estPasse): void
+    public function setEstPasse(?bool $estPasse): void
     {
         $this->estPasse = $estPasse;
     }

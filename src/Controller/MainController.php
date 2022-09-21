@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/", name="app")
@@ -31,17 +32,15 @@ class MainController extends AbstractController
         $filtres->setCampus($campus);
 
         //création des filtres
-        $filtresRempli = new Filtres();
-        $filtresRempli->setCampus($campus);
-        $mainForm = $this->createForm(MainType::class, $filtresRempli);
+        $mainForm = $this->createForm(MainType::class, $filtres);
         $mainForm->handleRequest($request);
 
-        //application des filtres
-        if($mainForm->isSubmitted() && $mainForm->isValid()){
-            $filtres = $filtresRempli;
-        }
         //ajout de l'utilisateur actuel
-        $filtres->setUtilisateurActuel($this->getUser());
+
+        /** @var Participant $user */
+        $user=$this->getUser();
+
+        $filtres->setUtilisateurActuel($user);
 
         //recupération du tableau de sorties
         $sorties = $sortieRepository->findSortieHome($filtres);
@@ -64,12 +63,17 @@ class MainController extends AbstractController
     {
         $inscrireSortie = $sortieRepository->find($id);
         if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
-            $inscrireSortie->addParticipant($this->getUser());
+            /** @var Participant $user */
+            $user=$this->getUser();
+
+            $inscrireSortie->addParticipant($user);
             $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
             $inscrireSortie->setEtatSortie($etat);
 
         } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
-            $inscrireSortie->addParticipant(($this->getUser()));
+            /** @var Participant $user */
+            $user=$this->getUser();
+            $inscrireSortie->addParticipant($user);
             $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
             $inscrireSortie->setEtatSortie($etat);
 
@@ -87,12 +91,16 @@ class MainController extends AbstractController
     {
         $seDesisterSortie = $sortieRepository->find($id);
         if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
-            $seDesisterSortie->removeParticipant($this->getUser());
+            /** @var Participant $user */
+            $user=$this->getUser();
+            $seDesisterSortie->removeParticipant($user);
             $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
             $seDesisterSortie->setEtatSortie($etat);
 
         } else if (count($seDesisterSortie->getParticipants()) <= $seDesisterSortie->getNbInscriptionsMax()) {
-            $seDesisterSortie->removeParticipant($this->getUser());
+            /** @var Participant $user */
+            $user=$this->getUser();
+            $seDesisterSortie->removeParticipant($user);
 
 
         }

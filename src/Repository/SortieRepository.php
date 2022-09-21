@@ -57,7 +57,6 @@ class SortieRepository extends ServiceEntityRepository
             ->where('s.id = :id')
             ->setParameter('id', $id);
 
-
         $query = $queryBuilder->getQuery();
 
         return $query->getOneOrNullResult();
@@ -67,25 +66,47 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('s');
         $expr = $queryBuilder->expr();
         $queryBuilder
-            //organisateur->leftJoin()
-            //campus->leftJoin()
-            //participants->leftJoin()
+            ->leftJoin('s.organisateur', 'orga')
             ->leftJoin('s.etatSortie', 'etat')
-            ->addSelect('etat')
+            ->addSelect('etat', 'orga')
             ->where($expr->neq('etat.libelle','\'Historisée\''))
             ->andWhere('s.siteOrganisateur = :campus')
             ->setParameter('campus', $filtres->getCampus())
             ->andWhere(
-                $expr->orX(
-                    $expr->andX(
-                        $expr->eq('etat.libelle','\'En création\''),
-                        $expr->eq('s.organisateur', ':user')
-                    ),
-                    $expr->neq('etat.libelle','\'En création\'')
-                )
+            $expr->orX(
+                $expr->andX(
+                    $expr->eq('etat.libelle','\'En création\''),
+                    $expr->eq('s.organisateur', ':user')
+                ),
+                $expr->neq('etat.libelle','\'En création\'')
             )
-            ->setParameter('user', $filtres->getUtilisateurActuel())
-            ;
+        );
+        //motcle
+        if($filtres->getSearch()){
+            $queryBuilder->andWhere('s.nom LIKE :motCle')
+                ->setParameter('motCle','%'.$filtres->getSearch().'%');
+        }
+
+        //date debut
+        //date fin
+
+        //organisateur
+        if($filtres->getEstOrganisateur()){
+            $queryBuilder->andWhere('s.organisateur = :user');
+        }
+        $queryBuilder->setParameter('user', $filtres->getUtilisateurActuel());
+
+        //sorties passées
+        if(!$filtres->getEstPasse()){
+            $queryBuilder->andWhere($expr->neq('etat.libelle','\'Terminée\''));
+        }
+        //est inscrit
+        if($filtres->getEstInscrit()){
+            $queryBuilder->andWhere(':user MEMBER OF s.participants');
+        }
+        if ($filtres->getPasInscrit()){
+            $queryBuilder->andWhere(':user NOT MEMBER OF s.participants');
+        }
 
         return $queryBuilder->getQuery()->getResult();
     }
