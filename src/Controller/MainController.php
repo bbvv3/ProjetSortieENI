@@ -81,6 +81,8 @@ class MainController extends AbstractController
 
         $entityManager->persist($inscrireSortie);
         $entityManager->flush();
+        $this->addFlash('success', 'Inscription à la sortie prise en compte :)');
+
         return $this->redirectToRoute('app_home');
     }
 
@@ -107,6 +109,7 @@ class MainController extends AbstractController
 
         $entityManager->persist($seDesisterSortie);
         $entityManager->flush();
+        $this->addFlash('error', 'Désistement à la sortie pris en compte :(');
 
         return $this->redirectToRoute( 'app_home');
     }

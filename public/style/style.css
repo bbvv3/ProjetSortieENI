@@ -35,15 +35,15 @@ body,html
 }
 
 .flash-success {
-    background: rgb(62,148,92);
-    background: linear-gradient(0deg, rgba(62,148,92,0.09567577030812324) 3%, rgba(116,181,80,0.8155637254901961) 73%);
-    margin-left: 50px;
-    margin-right: 50px;
+    background: rgb(41,255,0);
+    background: linear-gradient(0deg, rgba(41,255,0,1) 0%, rgba(199,255,189,0.2987570028011205) 100%);
+    margin-left: 150px;
+    margin-right: 950px;
 }
 
 .flash-error {
-    background: rgb(226,25,25);
-    background: linear-gradient(0deg, rgba(226,25,25,1) 0%, rgba(255,0,0,0.500437675070028) 100%);
+    background: rgb(255,0,0);
+    background: linear-gradient(0deg, rgba(255,0,0,1) 0%, rgba(255,91,91,0.30155812324929976) 100%);
     margin-left: 150px;
-    margin-right: 150px;
+    margin-right: 950px;
 }
