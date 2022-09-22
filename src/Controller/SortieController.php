@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\Services\Actualisation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,24 +63,41 @@ class SortieController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/AfficherSortie/{id}", name="app_afficher")
      */
-    public function afficher(int $id, SortieRepository $sortieRepository): Response
+    public function afficher(int $id,
+                             SortieRepository $sortieRepository,
+                             Actualisation $actualisation): Response
     {
+        $actualisation->miseAJourBDD();
         $sortie = $sortieRepository->findModifSortie($id);
-        return $this->render('Afficher/AfficherSortie.html.twig', [
-            'sortie' => $sortie
-        ]);
+        if ($sortie) {
+            $libelle = $sortie->getEtatSortie()->getLibelle();
+            if($libelle != 'En création'){
+                return $this->render('Afficher/AfficherSortie.html.twig', [
+                    'sortie' => $sortie
+                ]);
+            }else{
+                $this->addFlash('error', 'Vous ne pouvez accéder à cette sortie');
+            }
+        }else{
+            $this->addFlash('error', 'Cette sortie n\'existe pas');
+        }
+        return $this->redirectToRoute('app_home');
     }
-
 
     /**
      * @Route("/annuler/{id}", name="app_annuler")
      */
-    public function annuler(int $id, Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    public function annuler(int $id,
+                            Request $request,
+                            SortieRepository $sortieRepository,
+                            EtatRepository $etatRepository,
+                            EntityManagerInterface $entityManager,
+                            Actualisation $actualisation): Response
     {
+        $actualisation->miseAJourBDD();
         $annulerSortie = $sortieRepository->findModifSortie($id);
         if ($annulerSortie) {
             $libelle = $annulerSortie->getEtatSortie()->getLibelle();

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class Filtres
 {
@@ -19,12 +20,12 @@ class Filtres
     private $search;
 
     /**
-     * @var null|date
+     * @var null|DateTime
      */
     private $dateDebut;
 
     /**
-     * @var null|date
+     * @var null|DateTime
      */
     private $dateFin;
 
@@ -167,33 +168,33 @@ class Filtres
     }
 
     /**
-     * @return Date|null
+     * @return DateTime|null
      */
-    public function getDateDebut(): ?Date
+    public function getDateDebut(): ?DateTime
     {
         return $this->dateDebut;
     }
 
     /**
-     * @param Date|null $dateDebut
+     * @param DateTime|null $dateDebut
      */
-    public function setDateDebut(?Date $dateDebut): void
+    public function setDateDebut(?DateTime $dateDebut): void
     {
         $this->dateDebut = $dateDebut;
     }
 
     /**
-     * @return Date|null
+     * @return DateTime|null
      */
-    public function getDateFin(): ?Date
+    public function getDateFin(): ?DateTime
     {
         return $this->dateFin;
     }
 
     /**
-     * @param Date|null $dateFin
+     * @param DateTime|null $dateFin
      */
-    public function setDateFin(?Date $dateFin): void
+    public function setDateFin(?DateTime $dateFin): void
     {
         $this->dateFin = $dateFin;
     }

@@ -88,15 +88,15 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('motCle','%'.$filtres->getSearch().'%');
         }
         //date debut
-        if($filtres->getDateDebut()){
-            $queryBuilder->andWhere('s.dateHeureDebut <= :dateDebut')
-                ->setParameter('dateDebut', $filtres->getDateDebut());
-        }
-        //date fin
-        if($filtres->getDateFin()){
+        /*if($filtres->getDateDebut()){
             $queryBuilder->andWhere('s.dateHeureDebut >= :dateDebut')
-                ->setParameter('dateDebut', $filtres->getDateFin());
-        }
+                ->setParameter('dateDebut', $filtres->getDateDebut());
+        }*/
+        //date fin
+        /*if($filtres->getDateFin()){
+            $queryBuilder->andWhere('s.dateHeureDebut >= :dateFin')
+                ->setParameter('dateFin', $filtres->getDateFin());
+        }*/
         //organisateur
         if($filtres->getEstOrganisateur()){
             $queryBuilder->andWhere('s.organisateur = :user');
@@ -109,6 +109,7 @@ class SortieRepository extends ServiceEntityRepository
         if($filtres->getEstInscrit()){
             $queryBuilder->andWhere(':user MEMBER OF s.participants');
         }
+        // pas inscrit
         if ($filtres->getPasInscrit()){
             $queryBuilder->andWhere(':user NOT MEMBER OF s.participants');
         }
@@ -131,7 +132,7 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
-            ->where('etat.libelle = \'Cloturée\'')
+            ->where('etat.libelle = \'Clôturée\'')
             ->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }

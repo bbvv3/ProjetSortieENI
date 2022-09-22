@@ -89,7 +89,7 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if inscrit == true and sortie.etatSortie.libelle == "Ouverte"%}
+                    {% if inscrit == true and (sortie.etatSortie.libelle == "Ouverte" or sortie.etatSortie.libelle == "Clôturée")%}
                         - <a href=" {{ path('app_desister',{'id' : sortie.id }) }}" title="desister">Se désister</a>
                     {% else %}
                         {% if sortie.etatSortie.libelle == "Ouverte" and (sortie.participants |length) < (sortie.nbInscriptionsMax) %}

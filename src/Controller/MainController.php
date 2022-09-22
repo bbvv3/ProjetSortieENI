@@ -60,17 +60,17 @@ class MainController extends AbstractController
     public function inscrire(int $id,
                              EtatRepository $etatRepository,
                              EntityManagerInterface $entityManager,
-                             SortieRepository $sortieRepository/*,
-                             Actualisation $actualisation*/): Response
+                             SortieRepository $sortieRepository,
+                             Actualisation $actualisation): Response
     {
-        /*$actualisation->miseAJourBDD();*/
+        $actualisation->miseAJourBDD();
         $inscrireSortie = $sortieRepository->findModifSortie($id);
         if($inscrireSortie){
             $libelle = $inscrireSortie->getEtatSortie()->getLibelle();
             /** @var Participant $user */
             $user=$this->getUser();
             $participants = $inscrireSortie->getParticipants();
-            if(($libelle == 'Cloturée' || $libelle == 'Ouverte') && !$participants->contains($user)){
+            if(($libelle == 'Clôturée' || $libelle == 'Ouverte') && !$participants->contains($user)){
                 if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
                     $inscrireSortie->addParticipant($user);
                     $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
@@ -100,15 +100,17 @@ class MainController extends AbstractController
     public function seDesister(int $id,
                                SortieRepository $sortieRepository,
                                EtatRepository $etatRepository,
-                               EntityManagerInterface $entityManager):Response
+                               EntityManagerInterface $entityManager,
+                               Actualisation $actualisation):Response
     {
+        $actualisation->miseAJourBDD();
         $seDesisterSortie = $sortieRepository->findModifSortie($id);
         if($seDesisterSortie) {
             $libelle = $seDesisterSortie->getEtatSortie()->getLibelle();
             /** @var Participant $user */
             $user = $this->getUser();
             $participants = $seDesisterSortie->getParticipants();
-            if (($libelle == 'Cloturée' || $libelle == 'Ouverte') && $participants->contains($user)) {
+            if (($libelle == 'Clôturée' || $libelle == 'Ouverte') && $participants->contains($user)) {
                 if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
                     /** @var Participant $user */
                     $user = $this->getUser();
@@ -136,8 +138,13 @@ class MainController extends AbstractController
     /**
      * @Route("/publier/{id}", name="_publier")
      */
-    public function publier(int $id, Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
+    public function publier(int $id,
+                            EtatRepository $etatRepository,
+                            SortieRepository $sortieRepository,
+                            EntityManagerInterface $entityManager,
+                            Actualisation $actualisation):Response
     {
+        $actualisation->miseAJourBDD();
         $publierSortie = $sortieRepository->findModifSortie($id);
         if($publierSortie){
             $libelle = $publierSortie->getEtatSortie()->getLibelle();
