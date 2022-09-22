@@ -66,8 +66,9 @@ class MainController extends AbstractController
         $inscrireSortie = $sortieRepository->findModifSortie($id);
         //todo: verifier qu'on a bien reçu une sortie
         //$libelle = $inscrireSortie->getEtatSortie()->getLibelle();
-        /*user=$this->getUser();
-        $participants = $inscrireSortie->getParticipants();
+        /** @var Participant $user */
+        $user=$this->getUser();
+        /*$participants = $inscrireSortie->getParticipants();
         if(gettype($participants)=='Participant'){
             $inscrit = ($participants == $user);
 
