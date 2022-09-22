@@ -23,46 +23,61 @@ class SortieController extends AbstractController
                                   Request                $request,
                                   SortieRepository       $sortieRepository,
                                   EntityManagerInterface $entityManager,
-                                  EtatRepository         $etatRepository): Response
+                                  EtatRepository         $etatRepository,
+                                  Actualisation $actualisation): Response
     {
+        //test pour choisir entre créer et modifier une sortie
         if ($id != 0) {
+            $actualisation->miseAJourBDD();
             $creerSortie = $sortieRepository->findModifSortie($id);
         } else {
             $creerSortie = new Sortie();
             $creerSortie->setOrganisateur($this->getUser());
             $creerSortie->setSiteOrganisateur($this->getUser()->getCampus());
         }
-        $sortieForm = $this->createForm(SortieType::class, $creerSortie);
-        if ($id == 0) {
-            $sortieForm->remove('delete');
-            $sortieForm->remove('siteOrganisateur');
-        }
-        $sortieForm->handleRequest($request);
-        if ($sortieForm->isSubmitted() && !$sortieForm->isValid()) {
-            $this->addFlash('error', 'ERREUR! Création impossible de la sortie');
-        } else if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            if ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {
-                $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-                $creerSortie->setEtatSortie($etat);
-                $entityManager->persist($creerSortie);
-                $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' publiée avec succès!');
-            } else if ($sortieForm->getClickedButton() === $sortieForm->get('enregistrer')) {
-                $etat = $etatRepository->findOneBy(['libelle' => 'En création']);
-                $creerSortie->setEtatSortie($etat);
-                $entityManager->persist($creerSortie);
-                $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' enregistrée avec succès!');
-            } else {
-                $sortieForm->getClickedButton() === $sortieForm->get('delete');
-                $entityManager->remove($creerSortie);
-                $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' supprimée avec succès!');
+        if($creerSortie){
+            $libelle = $creerSortie->getEtatSortie()->getLibelle();
+            /** @var Participant $user */
+            $user = $this->getUser();
+            if($libelle == 'En Création' && $creerSortie->getOrganisateur() == $user){
+                $sortieForm = $this->createForm(SortieType::class, $creerSortie);
+                if ($id == 0) {
+                    $sortieForm->remove('delete');
+                    $sortieForm->remove('siteOrganisateur');
+                }
+                $sortieForm->handleRequest($request);
+                if ($sortieForm->isSubmitted() && !$sortieForm->isValid()) {
+                    $this->addFlash('error', 'ERREUR! Création impossible de la sortie');
+                } else if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+                    if ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {
+                        $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+                        $creerSortie->setEtatSortie($etat);
+                        $entityManager->persist($creerSortie);
+                        $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' publiée avec succès!');
+                    } else if ($sortieForm->getClickedButton() === $sortieForm->get('enregistrer')) {
+                        $etat = $etatRepository->findOneBy(['libelle' => 'En création']);
+                        $creerSortie->setEtatSortie($etat);
+                        $entityManager->persist($creerSortie);
+                        $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' enregistrée avec succès!');
+                    } else {
+                        $sortieForm->getClickedButton() === $sortieForm->get('delete');
+                        $entityManager->remove($creerSortie);
+                        $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' supprimée avec succès!');
+                    }
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_home');
+                }
+                return $this->render('creerSortie/creerSortie.html.twig', [
+                    'id' => $id,
+                    'sortieForm' => $sortieForm->createView(),
+                ]);
+            }else{
+                $this->addFlash('error', 'Vous ne pouvez pas modifier cette sortie');
             }
-            $entityManager->flush();
-            return $this->redirectToRoute('app_home');
+        }else{
+            $this->addFlash('error', 'Cette sortie n\'existe pas');
         }
-        return $this->render('creerSortie/creerSortie.html.twig', [
-            'id' => $id,
-            'sortieForm' => $sortieForm->createView(),
-        ]);
+        return $this->redirectToRoute('app_home');
     }
 
     /**
