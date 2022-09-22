@@ -24,7 +24,7 @@ class MainController extends AbstractController
     /**
      * @Route("", name="_home")
      */
-    public function home(Request $request, SortieRepository $sortieRepository/*, Actualisation $actualisation*/): Response
+    public function home(Request $request, SortieRepository $sortieRepository, Actualisation $actualisation): Response
     {
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();
@@ -43,7 +43,8 @@ class MainController extends AbstractController
         $filtres->setUtilisateurActuel($user);
 
         //recupération du tableau de sorties
-        /*$actualisation->miseAJourBDD();*/
+        $actualisation->miseAJourBDD();
+
         $sorties = $sortieRepository->findSortieHome($filtres);
 
         //redirection vers la page
@@ -64,35 +65,32 @@ class MainController extends AbstractController
     {
         /*$actualisation->miseAJourBDD();*/
         $inscrireSortie = $sortieRepository->findModifSortie($id);
-        //todo: verifier qu'on a bien reçu une sortie
-        //$libelle = $inscrireSortie->getEtatSortie()->getLibelle();
-        /** @var Participant $user */
-        $user=$this->getUser();
-        /*$participants = $inscrireSortie->getParticipants();
-        if(gettype($participants)=='Participant'){
-            $inscrit = ($participants == $user);
+        if($inscrireSortie){
+            $libelle = $inscrireSortie->getEtatSortie()->getLibelle();
+            /** @var Participant $user */
+            $user=$this->getUser();
+            $participants = $inscrireSortie->getParticipants();
+            if(($libelle == 'Cloturée' || $libelle == 'Ouverte') && !$participants->contains($user)){
+                if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
+                    $inscrireSortie->addParticipant($user);
+                    $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
+                    $inscrireSortie->setEtatSortie($etat);
+                } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
+                    $inscrireSortie->addParticipant($user);
+                    $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+                    $inscrireSortie->setEtatSortie($etat);
+                }
 
-        }else{
-            $inscrit = in_array($user, $participants);
-        }
-        if(($libelle == 'Cloturée' || $libelle == 'Ouverte') && $inscrit){*/
-            if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
-                $inscrireSortie->addParticipant($user);
-                $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
-                $inscrireSortie->setEtatSortie($etat);
-            } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
-                $inscrireSortie->addParticipant($user);
-                $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-                $inscrireSortie->setEtatSortie($etat);
+                $entityManager->persist($inscrireSortie);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Inscription à la sortie : '.$inscrireSortie->getNom().' du '.$inscrireSortie->getDateHeureDebut()->format('d/m/Y').' qui débutera à '.$inscrireSortie->getDateHeureDebut()->format('H:i'));
+            }else{
+                $this->addFlash('error', 'Inscription impossible à cette sortie');
             }
-
-            $entityManager->persist($inscrireSortie);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Inscription à la sortie : '.$inscrireSortie->getNom().' du '.$inscrireSortie->getDateHeureDebut()->format('d/m/Y').' qui débutera à '.$inscrireSortie->getDateHeureDebut()->format('H:i'));
-        /*}else{
-            $this->addFlash('error', 'Inscription impossible à cette sortie');
-        }*/
+        }else{
+            $this->addFlash('error', 'Cette sortie n\'existe pas');
+        }
         return $this->redirectToRoute('app_home');
     }
 
@@ -105,24 +103,34 @@ class MainController extends AbstractController
                                EntityManagerInterface $entityManager):Response
     {
         $seDesisterSortie = $sortieRepository->findModifSortie($id);
-        //todo: verifier qu'on a bien reçu une sortie
-            if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
-                /** @var Participant $user */
-                $user=$this->getUser();
-                $seDesisterSortie->removeParticipant($user);
-                $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-                $seDesisterSortie->setEtatSortie($etat);
+        if($seDesisterSortie) {
+            $libelle = $seDesisterSortie->getEtatSortie()->getLibelle();
+            /** @var Participant $user */
+            $user = $this->getUser();
+            $participants = $seDesisterSortie->getParticipants();
+            if (($libelle == 'Cloturée' || $libelle == 'Ouverte') && $participants->contains($user)) {
+                if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
+                    /** @var Participant $user */
+                    $user = $this->getUser();
+                    $seDesisterSortie->removeParticipant($user);
+                    $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+                    $seDesisterSortie->setEtatSortie($etat);
 
-            } else if (count($seDesisterSortie->getParticipants()) <= $seDesisterSortie->getNbInscriptionsMax()) {
-                /** @var Participant $user */
-                $user=$this->getUser();
-                $seDesisterSortie->removeParticipant($user);
+                } else if (count($seDesisterSortie->getParticipants()) <= $seDesisterSortie->getNbInscriptionsMax()) {
+                    /** @var Participant $user */
+                    $user = $this->getUser();
+                    $seDesisterSortie->removeParticipant($user);
+                }
+                $entityManager->persist($seDesisterSortie);
+                $entityManager->flush();
+                $this->addFlash('success', 'Désistement à la sortie : ' . $seDesisterSortie->getNom() . ' du ' . $seDesisterSortie->getDateHeureDebut()->format('d/m/Y') . ' qui débutera à ' . $seDesisterSortie->getDateHeureDebut()->format('H:i'));
+            }else{
+                $this->addFlash('error', 'Vous ne pouvez pas vous désister de cette sortie');
             }
-
-            $entityManager->persist($seDesisterSortie);
-            $entityManager->flush();
-            $this->addFlash('success', 'Désistement à la sortie : '.$seDesisterSortie->getNom().' du '.$seDesisterSortie->getDateHeureDebut()->format('d/m/Y').' qui débutera à '.$seDesisterSortie->getDateHeureDebut()->format('H:i'));
-        return $this->redirectToRoute( 'app_home');
+        }else{
+            $this->addFlash('error', 'Cette sortie n\'existe pas');
+        }
+                return $this->redirectToRoute( 'app_home');
     }
 
     /**
@@ -131,21 +139,23 @@ class MainController extends AbstractController
     public function publier(int $id, Request $request, EtatRepository $etatRepository, SortieRepository $sortieRepository, EntityManagerInterface $entityManager):Response
     {
         $publierSortie = $sortieRepository->findModifSortie($id);
-        //todo: verifier qu'on a bien reçu une sortie
-        $libelle = $publierSortie->getEtatSortie()->getLibelle();
-        /** @var Participant $user */
-        $user=$this->getUser();
-        if($libelle == 'En création' && $publierSortie->getOrganisateur() == $user){
-            $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+        if($publierSortie){
+            $libelle = $publierSortie->getEtatSortie()->getLibelle();
+            /** @var Participant $user */
+            $user=$this->getUser();
+            if($libelle == 'En création' && $publierSortie->getOrganisateur() == $user){
+                $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
 
-            $publierSortie->setEtatSortie($etat);
+                $publierSortie->setEtatSortie($etat);
 
-
-            $entityManager->persist($publierSortie);
-            $entityManager->flush();
-            $this->addFlash('success', 'Publication de la sortie '.$publierSortie->getNom().' réussie!');
+                $entityManager->persist($publierSortie);
+                $entityManager->flush();
+                $this->addFlash('success', 'Publication de la sortie '.$publierSortie->getNom().' réussie!');
+            }else{
+                $this->addFlash('error', 'Impossible de publier cette sortie');
+            }
         }else{
-            $this->addFlash('error', 'Impossible de publier cette sortie');
+            $this->addFlash('error', 'Cette sortie n\'existe pas');
         }
         return $this->redirectToRoute( 'app_home');
     }

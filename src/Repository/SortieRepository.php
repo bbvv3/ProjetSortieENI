@@ -72,6 +72,7 @@ class SortieRepository extends ServiceEntityRepository
             ->where($expr->neq('etat.libelle','\'Historisée\''))
             ->andWhere('s.siteOrganisateur = :campus')
             ->setParameter('campus', $filtres->getCampus())
+            ->andWhere('etat.libelle != \'En Création\' OR (etat.libelle = \'En Création\' AND s.organisateur = :user)')
             ->andWhere(
                 $expr->orX(
                     $expr->andX(
@@ -117,49 +118,41 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findOuvertToCloture(){
         $queryBuilder = $this->createQueryBuilder('s');
-        $now = new \DateTime();
         $queryBuilder
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
-            ->where('etat.libelle = \'Ouvert\'')
-            ->andWhere('s.dateLimiteInscription < :now')
-            ->setParameter('nom', $now);
+            ->where('etat.libelle = \'Ouverte\'')
+            ->andWhere('s.dateLimiteInscription < CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 
     public function findClotureToEnCours(){
         $queryBuilder = $this->createQueryBuilder('s');
-        $now = new \DateTime();
         $queryBuilder
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
             ->where('etat.libelle = \'Cloturée\'')
-            ->andWhere('s.dateHeureDebut < :now')
-            ->setParameter('nom', $now);
+            ->andWhere('s.dateHeureDebut < CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 
     public function findEnCoursToTermine(){
         $queryBuilder = $this->createQueryBuilder('s');
-        $now = new \DateTime();
         $queryBuilder
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
             ->where('etat.libelle = \'En cours\'')
-            ->andWhere('s.dateHeureDebut + s.duree > :now')
-            ->setParameter('nom', $now);
+            ->andWhere('DATE_ADD(s.dateHeureDebut, s.duree, \'MINUTE\') < CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 
     public function findTermineAndAnnulerToHistorise(){
         $queryBuilder = $this->createQueryBuilder('s');
-        $now = new \DateTime();
         $queryBuilder
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
-            ->where('etat.libelle = \'En cours\' or etat.libelle = \'Annulée\'')
-            ->andWhere('s.dateHeureDebut + \'1 month\' < :now')
-            ->setParameter('nom', $now);
+            ->where('etat.libelle = \'En cours\' OR etat.libelle = \'Annulée\'')
+            ->andWhere('DATE_ADD(s.dateHeureDebut, 1, \'MONTH\') < CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 }

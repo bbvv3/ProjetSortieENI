@@ -12,7 +12,7 @@ class Actualisation
     private EtatRepository $etatRepository;
     private EntityManagerInterface $entityManager;
 
-    public function __construct($sortieRepository, $etatRepository, $entityManager)
+    public function __construct(SortieRepository $sortieRepository,EtatRepository $etatRepository,EntityManagerInterface $entityManager)
     {
         $this->sortieRepository = $sortieRepository;
         $this->etatRepository = $etatRepository;
@@ -24,8 +24,8 @@ class Actualisation
             $etat=$this->etatRepository->findOneBy(['libelle'=> $libelle]);
             foreach ($sorties as $sortie){
                 $sortie->setEtatSortie($etat);
+                $this->entityManager->persist($sortie);
             }
-            $this->entityManager->persist($sorties);
             $this->entityManager->flush();
         }
     }
@@ -35,9 +35,9 @@ class Actualisation
         $this->modifEtat($sorties,'Cloturée');
         $sorties = $this->sortieRepository->findClotureToEnCours();
         $this->modifEtat($sorties,'Ouverte');
-        /*$sorties = $this->sortieRepository->findEnCoursToTermine();
+        $sorties = $this->sortieRepository->findEnCoursToTermine();
         $this->modifEtat($sorties, 'Terminée');
         $sorties = $this->sortieRepository->findTermineAndAnnulerToHistorise();
-        $this->modifEtat($sorties, 'Historisée');*/
+        $this->modifEtat($sorties, 'Historisée');
     }
 }
