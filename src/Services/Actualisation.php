@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Entity\Sortie;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,9 +35,9 @@ class Actualisation
         $this->modifEtat($sorties,'Cloturée');
         $sorties = $this->sortieRepository->findClotureToEnCours();
         $this->modifEtat($sorties,'Ouverte');
-        $sorties = $this->sortieRepository->findEnCoursToTermine();
+        /*$sorties = $this->sortieRepository->findEnCoursToTermine();
         $this->modifEtat($sorties, 'Terminée');
         $sorties = $this->sortieRepository->findTermineAndAnnulerToHistorise();
-        $this->modifEtat($sorties, 'Historisée');
+        $this->modifEtat($sorties, 'Historisée');*/
     }
 }

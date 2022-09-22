@@ -5,16 +5,16 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\MainType;
 use App\Models\Filtres;
-use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use App\Services\Actualisation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * @Route("/", name="app")
@@ -24,7 +24,7 @@ class MainController extends AbstractController
     /**
      * @Route("", name="_home")
      */
-    public function home(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
+    public function home(Request $request, SortieRepository $sortieRepository/*, Actualisation $actualisation*/): Response
     {
         //récupération du campus de l'utilisateur
         $campus = $this->getUser()->getCampus();
@@ -43,6 +43,7 @@ class MainController extends AbstractController
         $filtres->setUtilisateurActuel($user);
 
         //recupération du tableau de sorties
+        /*$actualisation->miseAJourBDD();*/
         $sorties = $sortieRepository->findSortieHome($filtres);
 
         //redirection vers la page
@@ -55,41 +56,51 @@ class MainController extends AbstractController
     /**
      * @Route("inscrire/{id}", name="_inscrire")
      */
-    public function inscrire(int $id, Request $request,
-                             ParticipantRepository $participantRepository,
+    public function inscrire(int $id,
                              EtatRepository $etatRepository,
                              EntityManagerInterface $entityManager,
-                             SortieRepository $sortieRepository): Response
+                             SortieRepository $sortieRepository/*,
+                             Actualisation $actualisation*/): Response
     {
-        $inscrireSortie = $sortieRepository->find($id);
-        if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
-            /** @var Participant $user */
-            $user=$this->getUser();
+        /*$actualisation->miseAJourBDD();*/
+        $inscrireSortie = $sortieRepository->findModifSortie($id);
+        //todo: verifier qu'on a bien reçu une sortie
+        /*$libelle = $inscrireSortie->getEtatSortie()->getLibelle();
+        if($libelle == 'Ouverte'){*/
+            if (count($inscrireSortie->getParticipants()) == $inscrireSortie->getNbInscriptionsMax() -1) {
+                /** @var Participant $user */
+                $user=$this->getUser();
 
-            $inscrireSortie->addParticipant($user);
-            $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
-            $inscrireSortie->setEtatSortie($etat);
+                $inscrireSortie->addParticipant($user);
+                $etat = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
+                $inscrireSortie->setEtatSortie($etat);
 
-        } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
-            /** @var Participant $user */
-            $user=$this->getUser();
-            $inscrireSortie->addParticipant($user);
-            $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-            $inscrireSortie->setEtatSortie($etat);
+            } else if (count($inscrireSortie->getParticipants()) < $inscrireSortie->getNbInscriptionsMax()) {
+                /** @var Participant $user */
+                $user=$this->getUser();
+                $inscrireSortie->addParticipant($user);
+                $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+                $inscrireSortie->setEtatSortie($etat);
 
-        }
+            }
 
-        $entityManager->persist($inscrireSortie);
-        $entityManager->flush();
-        $this->addFlash('success', 'Inscription à la sortie prise en compte :)');
+            $entityManager->persist($inscrireSortie);
+            $entityManager->flush();
 
+            $this->addFlash('success', 'Inscription à la sortie : '.$inscrireSortie->getNom().' du '.$inscrireSortie->getDateHeureDebut()->format('d M Y à H:i'));
+        /*}else{
+            $this->addFlash('error', 'Inscription impossible à une sortie '.$libelle);
+        }*/
         return $this->redirectToRoute('app_home');
     }
 
     /**
      * @Route("/desister/{id}", name="_desister")
      */
-    public function seDesister(int $id, Request $request, SortieRepository $sortieRepository,EtatRepository $etatRepository,EntityManagerInterface $entityManager):Response
+    public function seDesister(int $id,
+                               SortieRepository $sortieRepository,
+                               EtatRepository $etatRepository,
+                               EntityManagerInterface $entityManager):Response
     {
         $seDesisterSortie = $sortieRepository->find($id);
         if (count($seDesisterSortie->getParticipants()) == ($seDesisterSortie->getNbInscriptionsMax()) && $seDesisterSortie->getDateLimiteInscription() >= new \DateTime()) {
@@ -103,8 +114,6 @@ class MainController extends AbstractController
             /** @var Participant $user */
             $user=$this->getUser();
             $seDesisterSortie->removeParticipant($user);
-
-
         }
 
         $entityManager->persist($seDesisterSortie);
