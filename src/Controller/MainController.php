@@ -136,7 +136,7 @@ class MainController extends AbstractController
 
         $entityManager->persist($publierSortie);
         $entityManager->flush();
-        $this->addFlash('succes', 'Publication de la sortie '.$publierSortie->getNom().' réussie!');
+        $this->addFlash('success', 'Publication de la sortie '.$publierSortie->getNom().' réussie!');
 
         return $this->redirectToRoute( 'app_home');
     }
