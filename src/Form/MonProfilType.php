@@ -33,7 +33,7 @@ class MonProfilType extends AbstractType
                 'label' => 'Pseudo :',
                     // Ici on définit la taille du label
                     'label_attr' => [
-                      'class' => 'col-5 py-2'
+                      'class' => 'col-5'
                     ],
                     // En dessous on définit la taille du champ
                     'attr' => [
@@ -56,7 +56,7 @@ class MonProfilType extends AbstractType
                 'label' => 'Prénom :',
                 // Ici on définit la taille du label
                 'label_attr' => [
-                    'class' => 'col-5 py-2'
+                    'class' => 'col-5'
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [
@@ -78,7 +78,7 @@ class MonProfilType extends AbstractType
                 'label'=>'Nom :',
                 // Ici on définit la taille du label
                 'label_attr' => [
-                    'class' => 'col-5 py-2'
+                    'class' => 'col-5'
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [
@@ -101,7 +101,7 @@ class MonProfilType extends AbstractType
                 'required' => false,
                 // Ici on définit la taille du label
                 'label_attr' => [
-                    'class' => 'col-5 py-2'
+                    'class' => 'col-5'
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [
@@ -112,7 +112,7 @@ class MonProfilType extends AbstractType
                 'label' => 'Mail :',
                 // Ici on définit la taille du label
                 'label_attr' => [
-                    'class' => 'col-5 py-2'
+                    'class' => 'col-5'
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [
@@ -131,6 +131,12 @@ class MonProfilType extends AbstractType
             ->add('motPasse',RepeatedType::class,[
                 'type' => PasswordType::class,
                 'mapped' => false,
+                'label_attr' => [
+                    'class' => 'd-none'
+                ],
+                'attr' => [
+                    'class' => 'col-12'
+                ],
                 'first_options'  => ['label' => 'Mot de Passe :',
                     // Ici on définit la taille du label
                     'label_attr' => [
@@ -165,7 +171,7 @@ class MonProfilType extends AbstractType
                     'label' => 'Campus',
                 // Ici on définit la taille du label
                 'label_attr' => [
-                    'class' => 'col-5 py-2'
+                    'class' => 'col-5'
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [

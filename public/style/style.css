@@ -47,3 +47,9 @@ body,html
     margin-left: 150px;
     margin-right: 950px;
 }
+
+.error {
+    color: #ba3939;
+    background: #ffe0e0;
+    border-radius : 5px;
+}
