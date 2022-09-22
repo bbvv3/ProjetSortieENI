@@ -87,7 +87,7 @@ class MainController extends AbstractController
             $entityManager->persist($inscrireSortie);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Inscription à la sortie : '.$inscrireSortie->getNom().' du '.$inscrireSortie->getDateHeureDebut()->format('d M Y à H:i'));
+            $this->addFlash('success', 'Inscription à la sortie : '.$inscrireSortie->getNom().' du '.$inscrireSortie->getDateHeureDebut()->format('d/m/Y').' qui débutera à '.$inscrireSortie->getDateHeureDebut()->format('H:i'));
         /*}else{
             $this->addFlash('error', 'Inscription impossible à une sortie '.$libelle);
         }*/
@@ -118,7 +118,7 @@ class MainController extends AbstractController
 
         $entityManager->persist($seDesisterSortie);
         $entityManager->flush();
-        $this->addFlash('error', 'Désistement à la sortie pris en compte :(');
+        $this->addFlash('error', 'Désistement à la sortie : '.$seDesisterSortie->getNom().' du '.$seDesisterSortie->getDateHeureDebut()->format('d/m/Y').' qui débutera à '.$seDesisterSortie->getDateHeureDebut()->format('H:i'));
 
         return $this->redirectToRoute( 'app_home');
     }
@@ -136,6 +136,7 @@ class MainController extends AbstractController
 
         $entityManager->persist($publierSortie);
         $entityManager->flush();
+        $this->addFlash('succes', 'Publication de la sortie '.$publierSortie->getNom().' réussie!');
 
         return $this->redirectToRoute( 'app_home');
     }
