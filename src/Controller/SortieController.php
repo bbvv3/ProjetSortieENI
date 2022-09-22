@@ -38,7 +38,9 @@ class SortieController extends AbstractController
             $sortieForm->remove('siteOrganisateur');
         }
         $sortieForm->handleRequest($request);
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+        if ($sortieForm->isSubmitted() && !$sortieForm->isValid()) {
+            $this->addFlash('error', 'ERREUR! Création impossible de la sortie');
+        } else if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {
                 $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
                 $creerSortie->setEtatSortie($etat);
