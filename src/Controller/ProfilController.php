@@ -30,15 +30,14 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/organisateur/{id}", name="app_afficherOrganisateur")
+     * @Route("/utilisateur/{id}", name="app_afficherUtilisateur")
      */
-    public function afficherOrganisateur(int $id, ParticipantRepository $participantRepository): Response
+    public function afficherUtilisateur(int $id, ParticipantRepository $participantRepository): Response
     {
         $participant = $participantRepository->find($id);
-        return $this->render('profil/afficherOrganisateur.html.twig', [
+        return $this->render('profil/afficherUtilisateur.html.twig', [
             'participant' => $participant
         ]);
     }
-
 
 }
