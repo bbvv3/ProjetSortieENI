@@ -35,21 +35,17 @@ body,html
 }
 
 .flash-success {
-    background: rgb(41,255,0);
-    background: linear-gradient(0deg, rgba(41,255,0,1) 0%, rgba(199,255,189,0.2987570028011205) 100%);
-    margin-left: 150px;
-    margin-right: 950px;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
 }
 
 .flash-error {
-    background: rgb(255,0,0);
-    background: linear-gradient(0deg, rgba(255,0,0,1) 0%, rgba(255,91,91,0.30155812324929976) 100%);
-    margin-left: 150px;
-    margin-right: 950px;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
 }
 
 .error {
     color: #ba3939;
-    background: #ffe0e0;
-    border-radius : 5px;
 }

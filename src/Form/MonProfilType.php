@@ -43,12 +43,6 @@ class MonProfilType extends AbstractType
                     new NotBlank([
                         'message' => 'Merci de renseigner un pseudo!'
                     ]),
-                    new Length([
-                        'min' => 3,
-                        'minMessage' => 'Le pseudo doit contenir {{ limit }} caractères minimum!',
-                        'max' => 50,
-                        'maxMessage' => 'Le pseudo doit contenir {{ limit }} caractères maximum!',
-                    ]),
                 ],
 
             ])
@@ -66,12 +60,6 @@ class MonProfilType extends AbstractType
                     new NotBlank([
                         'message' => 'Merci de renseigner un prénom!'
                     ]),
-                    new Length([
-                        'min' => 3,
-                        'minMessage' => 'Le prénom doit contenir {{ limit }} caractères minimum!',
-                        'max' => 80,
-                        'maxMessage' => 'Le prénom doit contenir {{ limit }} caractères maximum!',
-                    ]),
                 ],
             ])
             ->add('nom',TextType::class,[
@@ -88,12 +76,6 @@ class MonProfilType extends AbstractType
                     new NotBlank([
                         'message' => 'Merci de renseigner un nom!'
                     ]),
-                    new Length([
-                        'min' => 3,
-                        'minMessage' => 'Le nom doit contenir {{ limit }} caractères minimum!',
-                        'max' => 80,
-                        'maxMessage' => 'Le nom doit contenir {{ limit }} caractères maximum!',
-                    ]),
                 ],
             ])
             ->add('telephone',TextType::class,[
@@ -106,6 +88,7 @@ class MonProfilType extends AbstractType
                 // En dessous on définit la taille du champ
                 'attr' => [
                     'class' => 'col-7',
+                    'pattern' => '^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
                 ],
             ])
             ->add('mail',TextType::class,[
@@ -116,15 +99,11 @@ class MonProfilType extends AbstractType
                 ],
                 // En dessous on définit la taille du champ
                 'attr' => [
-                    'class' => 'col-7',
+                    'class' => 'col-7'
                 ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner un email!'
-                    ]),
-                    new Length([
-                        'max' => 180,
-                        'maxMessage' => 'Le mail doit contenir {{ limit }} caractères maximum!',
                     ]),
                 ],
             ])
