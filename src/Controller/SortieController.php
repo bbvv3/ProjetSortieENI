@@ -44,7 +44,7 @@ class SortieController extends AbstractController
 
             /** @var Participant $user */
             $user = $this->getUser();
-            if($id==0 || ($libelle == 'En création' && $creerSortie->getOrganisateur() == $user)){
+            if($id==0 || ($libelle == 'En création' && $creerSortie->getOrganisateur() === $user)){
                 $sortieForm = $this->createForm(SortieType::class, $creerSortie);
                 if ($id == 0) {
                     $sortieForm->remove('delete');
