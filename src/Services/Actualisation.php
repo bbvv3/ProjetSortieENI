@@ -32,9 +32,9 @@ class Actualisation
 
     public function miseAJourBDD(){
         $sorties = $this->sortieRepository->findOuvertToCloture();
-        $this->modifEtat($sorties,'Cloturée');
+        $this->modifEtat($sorties,'Clôturée');
         $sorties = $this->sortieRepository->findClotureToEnCours();
-        $this->modifEtat($sorties,'Ouverte');
+        $this->modifEtat($sorties,'En cours');
         $sorties = $this->sortieRepository->findEnCoursToTermine();
         $this->modifEtat($sorties, 'Terminée');
         $sorties = $this->sortieRepository->findTermineAndAnnulerToHistorise();

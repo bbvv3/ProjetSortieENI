@@ -72,7 +72,7 @@ class SortieRepository extends ServiceEntityRepository
             ->where($expr->neq('etat.libelle','\'Historisée\''))
             ->andWhere('s.siteOrganisateur = :campus')
             ->setParameter('campus', $filtres->getCampus())
-            ->andWhere('etat.libelle != \'En Création\' OR (etat.libelle = \'En Création\' AND s.organisateur = :user)')
+            ->andWhere('etat.libelle != \'En création\' OR (etat.libelle = \'En création\' AND s.organisateur = :user)')
             ->andWhere(
                 $expr->orX(
                     $expr->andX(
