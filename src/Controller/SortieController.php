@@ -28,7 +28,6 @@ class SortieController extends AbstractController
     {
         //test pour choisir entre créer et modifier une sortie
         if ($id != 0) {
-            $actualisation->miseAJourBDD();
             $creerSortie = $sortieRepository->findModifSortie($id);
             if($creerSortie){
                 $libelle = $creerSortie->getEtatSortie()->getLibelle();
