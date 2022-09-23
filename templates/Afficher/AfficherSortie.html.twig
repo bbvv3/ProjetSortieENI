@@ -7,21 +7,21 @@
 {% block body %}
     <div id="affichage" class="d-flex justify-content-center flex-wrap">
         <h2 class="col-10 text-center pt-2 pb-5">Afficher une sortie</h2>
-        <div class="d-flex col-4 flex-wrap">
-            <p class="col-6">Nom de la sortie :</p><span class="col-6">{{ sortie.nom }}</span>
-            <p class="col-6">Date et heure de la sortie :</p><span class="col-6">{{ sortie.dateHeureDebut|date("d/m/Y à H:i") }}</span>
-            <p class="col-6">Date limite d'inscription :</p><span class="col-6">{{ sortie.dateLimiteInscription|date("d/m/Y") }}</span>
-            <p class="col-6">Nombre de places :</p><span class="col-6">{{ sortie.nbInscriptionsMax - (sortie.participants|length) }} / {{ sortie.nbInscriptionsMax }}</span>
+        <div class="d-flex col-4 px-4 flex-wrap">
+            <p class="col-6">Nom de la sortie :</p><p class="col-6">{{ sortie.nom }}</p>
+            <p class="col-6">Date et heure de la sortie :</p><p class="col-6">{{ sortie.dateHeureDebut|date("d/m/Y à H:i") }}</p>
+            <p class="col-6">Date limite d'inscription :</p><p class="col-6">{{ sortie.dateLimiteInscription|date("d/m/Y") }}</p>
+            <p class="col-6">Nombre de places :</p><p class="col-6">{{ sortie.nbInscriptionsMax - (sortie.participants|length) }} / {{ sortie.nbInscriptionsMax }} restante.s</p>
             <p class="col-6">Durée :</p><p class="col-6"><span>{{ sortie.duree }}</span> minutes<p>
-            <p class="col-6">Description et infos :</p><span class="col-6">{{ sortie.infosSortie }}</span>
+            <p class="col-6">Description et infos :</p><p class="col-6">{{ sortie.infosSortie }}</p>
         </div>
-        <div class="d-flex col-4 flex-wrap">
-            <p class="col-6">Campus :</p><span class="col-6">{{ sortie.siteOrganisateur }}</span>
-            <p class="col-6">Lieu :</p><span class="col-6">{{ sortie.lieuSortie }}</span>
-            <p class="col-6">Rue :</p><span class="col-6">{{ sortie.lieuSortie.ville.nom }}</span>
-            <p class="col-6">Code postal :</p><span class="col-6">{{ sortie.lieuSortie.ville.codePostal }}</span>
-            <p class="col-6">Latitude :</p><span class="col-6">{{ sortie.lieuSortie.latitude }}</span>
-            <p class="col-6">Longitude :</p><span class="col-6">{{ sortie.lieuSortie.longitude }}</span>
+        <div class="d-flex col-4 px-4 flex-wrap">
+            <p class="col-6">Campus :</p><p class="col-6">{{ sortie.siteOrganisateur }}</p>
+            <p class="col-6">Lieu :</p><p class="col-6">{{ sortie.lieuSortie }}</p>
+            <p class="col-6">Rue :</p><p class="col-6">{{ sortie.lieuSortie.ville.nom }}</p>
+            <p class="col-6">Code postal :</p><p class="col-6">{{ sortie.lieuSortie.ville.codePostal }}</p>
+            <p class="col-6">Latitude :</p><p class="col-6">{{ sortie.lieuSortie.latitude }}</p>
+            <p class="col-6">Longitude :</p><p class="col-6">{{ sortie.lieuSortie.longitude }}</p>
         </div>
     </div>
     <div class="ms-5 col-4 mt-3">
