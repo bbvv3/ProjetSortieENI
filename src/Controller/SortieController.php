@@ -30,13 +30,18 @@ class SortieController extends AbstractController
         if ($id != 0) {
             $actualisation->miseAJourBDD();
             $creerSortie = $sortieRepository->findModifSortie($id);
-            $libelle = $creerSortie->getEtatSortie()->getLibelle();
+            if($creerSortie){
+                $libelle = $creerSortie->getEtatSortie()->getLibelle();
+            }else{
+                $this->addFlash('error', 'Cette sortie n\'existe pas');
+                return $this->redirectToRoute('app_home');
+            }
         } else {
             $creerSortie = new Sortie();
             $creerSortie->setOrganisateur($this->getUser());
             $creerSortie->setSiteOrganisateur($this->getUser()->getCampus());
         }
-        if($creerSortie){
+
             /** @var Participant $user */
             $user = $this->getUser();
             if($id==0 || ($libelle == 'En création' && $creerSortie->getOrganisateur() == $user)){
@@ -60,7 +65,7 @@ class SortieController extends AbstractController
                         $entityManager->persist($creerSortie);
                         $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' enregistrée avec succès!');
                     } else {
-                        $sortieForm->getClickedButton() === $sortieForm->get('delete');
+                        //$sortieForm->getClickedButton() === $sortieForm->get('delete');
                         $entityManager->remove($creerSortie);
                         $this->addFlash('success', 'Sortie ' . $creerSortie->getNom() . ' supprimée avec succès!');
                     }
@@ -74,9 +79,6 @@ class SortieController extends AbstractController
             }else{
                 $this->addFlash('error', 'Vous ne pouvez pas modifier cette sortie');
             }
-        }else{
-            $this->addFlash('error', 'Cette sortie n\'existe pas');
-        }
         return $this->redirectToRoute('app_home');
     }
 
@@ -120,7 +122,7 @@ class SortieController extends AbstractController
             $libelle = $annulerSortie->getEtatSortie()->getLibelle();
             /** @var Participant $user */
             $user = $this->getUser();
-            if (($libelle == 'Ouverte' || $libelle != 'Cloturée') && $annulerSortie->getOrganisateur() == $user) {
+            if (($libelle == 'Ouverte' || $libelle == 'Clôturée') && $annulerSortie->getOrganisateur() == $user) {
                 if (($request->getMethod() == "POST") && (empty($request->request->get('motif')))) {
                     $this->addFlash('error', 'Le champ motif doit être rempli pour pouvoir annuler : ' . $annulerSortie->getNom());
                 } else if ($request->getMethod() == "POST") {
