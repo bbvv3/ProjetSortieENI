@@ -43,7 +43,7 @@ class Sortie
     private $duree;
 
     /**
-     * @Assert\GreaterThanOrEqual("now")
+     * @Assert\GreaterThanOrEqual("today")
      * @Assert\LessThanOrEqual(propertyPath="dateHeureDebut")
      * @Assert\NotBlank(message="Merci de saisir la date limite de l'inscription")
      * @ORM\Column(type="date")
