@@ -133,7 +133,7 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
             ->where('etat.libelle = \'Clôturée\'')
-            ->andWhere('s.dateHeureDebut < CURRENT_DATE()');
+            ->andWhere('s.dateHeureDebut <= CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 
@@ -143,7 +143,7 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('s.etatSortie', 'etat')
             ->addSelect('etat')
             ->where('etat.libelle = \'En cours\'')
-            ->andWhere('DATE_ADD(s.dateHeureDebut, s.duree, \'MINUTE\') < CURRENT_DATE()');
+            ->andWhere('DATE_ADD(s.dateHeureDebut, s.duree, \'MINUTE\') <= CURRENT_DATE()');
         return $queryBuilder->getQuery()->getResult();
     }
 

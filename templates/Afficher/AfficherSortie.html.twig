@@ -11,7 +11,7 @@
             <p class="col-6">Nom de la sortie :</p><span class="col-6">{{ sortie.nom }}</span>
             <p class="col-6">Date et heure de la sortie :</p><span class="col-6">{{ sortie.dateHeureDebut|date("d/m/Y à H:i") }}</span>
             <p class="col-6">Date limite d'inscription :</p><span class="col-6">{{ sortie.dateLimiteInscription|date("d/m/Y") }}</span>
-            <p class="col-6">Nombre de places :</p><span class="col-6">{{ sortie.nbInscriptionsMax - (sortie.participants|length) }} / {{ sortie.nbInscriptionsMax }}</span>
+            <p class="col-6">Nombre de places :</p><p class="col-6">{{ sortie.nbInscriptionsMax - (sortie.participants|length) }} / {{ sortie.nbInscriptionsMax }} restante.s</p>
             <p class="col-6">Durée :</p><p class="col-6"><span>{{ sortie.duree }}</span> minutes<p>
             <p class="col-6">Description et infos :</p><span class="col-6">{{ sortie.infosSortie }}</span>
         </div>
