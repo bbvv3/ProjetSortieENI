@@ -30,16 +30,16 @@ class SortieController extends AbstractController
         if ($id != 0) {
             $actualisation->miseAJourBDD();
             $creerSortie = $sortieRepository->findModifSortie($id);
+            $libelle = $creerSortie->getEtatSortie()->getLibelle();
         } else {
             $creerSortie = new Sortie();
             $creerSortie->setOrganisateur($this->getUser());
             $creerSortie->setSiteOrganisateur($this->getUser()->getCampus());
         }
         if($creerSortie){
-            $libelle = $creerSortie->getEtatSortie()->getLibelle();
             /** @var Participant $user */
             $user = $this->getUser();
-            if($libelle == 'En Création' && $creerSortie->getOrganisateur() == $user){
+            if($id==0 ||($libelle == 'En Création' && $creerSortie->getOrganisateur() == $user)){
                 $sortieForm = $this->createForm(SortieType::class, $creerSortie);
                 if ($id == 0) {
                     $sortieForm->remove('delete');
